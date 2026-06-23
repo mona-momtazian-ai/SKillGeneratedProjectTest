@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="گالری دیجیتال آثار تاریخی و باستانی ایران — نگاهی به شکوه تمدن چندهزارساله">
+  <title>گالری آثار باستانی ایران</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+  <style>
+    /* ── Design tokens ───────────────────────────────────────── */
+    :root {
+      --ground:      #0f0c0a;
+      --surface:     #161210;
+      --card-bg:     #1c1712;
+      --border:      #2b2018;
+      --border-dim:  #1e1710;
+      --text:        #e5d8c4;
+      --text-2:      #7a6c5e;
+      --text-3:      #3f342c;
+      --accent:      #5b8fa8;
+      --accent-dim:  #1d3d50;
+      --accent-glow: rgba(91,143,168,0.12);
+      --gold:        #b89a58;
+      --gold-dim:    #564726;
+      --ease-out:    cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ── Reset ───────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--ground);
+      color: var(--text);
+      font-family: 'Vazirmatn', Tahoma, 'Arial Unicode MS', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Site header ─────────────────────────────────────────── */
+    .header {
+      padding: 4.5rem 2rem 3.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    /* thin accent underline as separator */
+    .header::after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 48px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.55;
+    }
+
+    .header-eyebrow {
+      font-family: 'Space Mono', 'Courier New', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.28em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      display: block;
+      opacity: 0.8;
+    }
+
+    .header-title {
+      font-size: clamp(1.7rem, 4vw, 2.9rem);
+      font-weight: 300;
+      letter-spacing: -0.025em;
+      color: var(--text);
+      line-height: 1.15;
+      margin-bottom: 0.6rem;
+    }
+
+    .header-sub {
+      font-size: 0.83rem;
+      color: var(--text-2);
+      font-weight: 300;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── Gallery grid ────────────────────────────────────────── */
+    #gallery {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem 7rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    /* ── Card ────────────────────────────────────────────────── */
+    .card {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--card-bg);
+      /* hatched texture fallback when image is missing */
+      background-image:
+        repeating-linear-gradient(
+          45deg,
+          var(--border-dim) 0px, var(--border-dim) 1px,
+          transparent 1px, transparent 14px
+        );
+      outline: none;
+    }
+
+    /* accent top line that expands on hover */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      z-index: 4;
+      transition: width 0.45s var(--ease-out);
+    }
+
+    /* focus/hover border */
+    .card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid transparent;
+      z-index: 3;
+      pointer-events: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .card:hover::before, .card:focus-visible::before { width: 45%; }
+    .card:hover::after,  .card:focus-visible::after  { border-color: rgba(91,143,168,0.35); }
+
+    .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0.78;
+      transition: transform 0.75s var(--ease-out), opacity 0.5s ease;
+    }
+
+    .card:hover .card-img,
+    .card:focus-visible .card-img {
+      transform: scale(1.065);
+      opacity: 1;
+    }
+
+    /* gradient overlay */
+    .card-shade {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(15,12,10,0.96) 0%,
+        rgba(15,12,10,0.55) 35%,
+        rgba(15,12,10,0.08) 65%
+      );
+      z-index: 1;
+      transition: opacity 0.4s ease;
+    }
+
+    .card:hover .card-shade { opacity: 0.78; }
+
+    /* card text */
+    .card-body {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      padding: 1.1rem 1.1rem 0.95rem;
+      z-index: 2;
+    }
+
+    .card-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      margin-bottom: 0.28rem;
+      display: block;
+      opacity: 0.75;
+    }
+
+    .card-name {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .card-place {
+      font-size: 0.7rem;
+      color: var(--text-2);
+      margin-top: 0.18rem;
+    }
+
+    /* entrance animation — staggered per card */
+    .card {
+      animation: cardIn 0.55s var(--ease-out) both;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Detail view ─────────────────────────────────────────── */
+    #detail {
+      display: none;
+      min-height: 100vh;
+    }
+
+    #detail.active {
+      display: block;
+      animation: detailIn 0.38s var(--ease-out) both;
+    }
+
+    @keyframes detailIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* sticky bar */
+    .detail-bar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(15,12,10,0.85);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem 1.5rem;
+      gap: 1rem;
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-2);
+      font-family: 'Vazirmatn', sans-serif;
+      font-size: 0.78rem;
+      padding: 0.4rem 0.9rem;
+      cursor: pointer;
+      transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .btn-back:hover {
+      border-color: var(--accent-dim);
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .btn-back:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn-back svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
+
+    .detail-count {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--text-3);
+      letter-spacing: 0.1em;
+      user-select: none;
+    }
+
+    /* hero image */
+    .detail-hero {
+      position: relative;
+      height: min(64vh, 590px);
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .detail-hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0.82;
+    }
+
+    /* gradient fades image into dark ground */
+    .detail-hero-fade {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 65%;
+      background: linear-gradient(to bottom, transparent, var(--ground));
+      pointer-events: none;
+    }
+
+    /* content column */
+    .detail-content {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 5.5rem;
+    }
+
+    /* tag row */
+    .detail-tags {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.1rem;
+    }
+
+    .tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
+      padding: 0.18rem 0.55rem;
+      border: 1px solid;
+      line-height: 1.6;
+    }
+
+    .tag-period   { color: var(--accent); border-color: var(--accent-dim); }
+    .tag-location { color: var(--text-2); border-color: var(--border); }
+    .tag-date     { color: var(--text-3); border-color: transparent; font-size: 0.55rem; }
+
+    .detail-title {
+      font-size: clamp(1.9rem, 5vw, 3.1rem);
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 1.12;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .detail-latin {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      opacity: 0.65;
+      margin-bottom: 1.75rem;
+      display: block;
+    }
+
+    /* short accent rule — not decorative, marks where copy begins */
+    .detail-rule {
+      width: 28px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.45;
+      margin-bottom: 1.75rem;
+    }
+
+    .detail-desc {
+      font-size: 0.95rem;
+      line-height: 2.05;
+      color: var(--text-2);
+      font-weight: 300;
+    }
+
+    .detail-desc p + p { margin-top: 1rem; }
+
+    /* prev / next navigation */
+    .detail-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-2);
+      font-family: 'Vazirmatn', sans-serif;
+      font-size: 0.78rem;
+      padding: 0.45rem 1rem;
+      cursor: pointer;
+      transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .btn-nav:hover:not(:disabled) {
+      border-color: var(--accent-dim);
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .btn-nav:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn-nav:disabled { opacity: 0.22; cursor: not-allowed; }
+    .btn-nav svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* ── Scrollbar ────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--ground); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* ── Responsive ──────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      #gallery { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    }
+
+    @media (max-width: 640px) {
+      .header { padding: 2.75rem 1rem 2.25rem; }
+
+      #gallery {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 2rem 0.75rem 5rem;
+        gap: 0.75rem;
+      }
+
+      .detail-hero { height: min(44vh, 300px); }
+      .detail-content { padding: 1.5rem 1rem 4rem; }
+      .detail-bar { padding: 0.7rem 1rem; }
+    }
+
+    @media (max-width: 400px) {
+      #gallery { grid-template-columns: 1fr; }
+      .card { aspect-ratio: 3 / 2; }
+    }
+
+    /* ── Reduced motion ──────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      .card, #detail.active { animation: none; }
+      .card-img { transition: opacity 0.3s ease; }
+      .card:hover .card-img { transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ────────── Header ────────── -->
+<header class="header">
+  <span class="header-eyebrow">Iran · Cultural Heritage Gallery</span>
+  <h1 class="header-title">گالری آثار باستانی ایران</h1>
+  <p class="header-sub">نگاهی به شکوه تمدن چندهزارساله</p>
+</header>
+
+<!-- ────────── Gallery grid ────────── -->
+<main id="gallery" role="main" aria-label="فهرست آثار تاریخی ایران"></main>
+
+<!-- ────────── Detail view ────────── -->
+<section id="detail" role="region" aria-label="جزئیات اثر" aria-hidden="true">
+
+  <nav class="detail-bar" aria-label="ناوبری">
+    <button class="btn-back" id="btn-back" onclick="closeDetail()">
+      <!-- right-pointing chevron: in RTL layout this appears on the left of the text,
+           pointing toward RTL-start (right), the spatial "back" direction -->
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+      </svg>
+      بازگشت به گالری
+    </button>
+    <span class="detail-count" id="detail-count" aria-live="polite"></span>
+  </nav>
+
+  <figure class="detail-hero" aria-hidden="true">
+    <img id="d-img" class="detail-hero-img" src="" alt="" loading="lazy">
+    <div class="detail-hero-fade"></div>
+  </figure>
+
+  <div class="detail-content">
+    <div class="detail-tags" aria-label="دسته‌بندی">
+      <span class="tag tag-period"   id="d-period"></span>
+      <span class="tag tag-location" id="d-location"></span>
+      <span class="tag tag-date"     id="d-date"></span>
+    </div>
+
+    <h2 class="detail-title" id="d-title"></h2>
+    <span class="detail-latin" id="d-latin" aria-label="نام لاتین"></span>
+
+    <div class="detail-rule" aria-hidden="true"></div>
+
+    <div class="detail-desc" id="d-desc"></div>
+
+    <div class="detail-nav">
+      <!-- in RTL flex, btn-prev renders on the right, btn-next on the left -->
+      <button class="btn-nav" id="btn-prev" onclick="navigate(-1)" aria-label="اثر قبلی">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+        </svg>
+        قبلی
+      </button>
+      <button class="btn-nav" id="btn-next" onclick="navigate(1)" aria-label="اثر بعدی">
+        بعدی
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ── Monument data ─────────────────────────────────────────── */
+const MONUMENTS = [
+  {
+    name:     "تخت جمشید",
+    latin:    "Persepolis",
+    period:   "هخامنشی",
+    location: "مرودشت، فارس",
+    date:     "c. 520–330 BCE",
+    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Persepolis_stairs_of_the_Apadana_relief.jpg/1280px-Persepolis_stairs_of_the_Apadana_relief.jpg",
+    desc:     `تخت جمشید، پایتخت تشریفاتی امپراتوری هخامنشی، از بزرگ‌ترین مجموعه‌های معماری باستانی جهان است. داریوش اول ساخت آن را در حدود ۵۲۰ پیش از میلاد آغاز کرد و جانشینانش خشایارشا و اردشیر اول آن را به اتمام رساندند.
+
+کاخ‌های آپادانا، صد ستون و تچر با نقش‌برجسته‌هایی که هیئت‌های نمایندگی ملل گوناگون را در حال تقدیم هدیه نشان می‌دهند، از ارزشمندترین منابع تصویری تاریخ هنر ایران باستانند. یونسکو تخت جمشید را در ۱۹۷۹ در فهرست میراث جهانی ثبت کرد.`
+  },
+  {
+    name:     "میدان نقش جهان",
+    latin:    "Naqsh-e Jahan Square",
+    period:   "صفوی",
+    location: "اصفهان",
+    date:     "c. 1598–1629 CE",
+    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Naqsh-i_Jahan_Square%2C_Jan._2018.jpg/1280px-Naqsh-i_Jahan_Square%2C_Jan._2018.jpg",
+    desc:     `میدان نقش جهان که امروز به نام میدان امام شناخته می‌شود، بزرگ‌ترین میدان شهری قرون وسطا در جهان به شمار می‌رود. شاه عباس اول صفوی آن را در دوران اوج شکوه پایتختش اصفهان بنا نهاد.
+
+در چهار سوی این میدان چهار بنای اعجاب‌انگیز جای گرفته‌اند: مسجد امام با گنبد فیروزه‌ای رنگش، مسجد شیخ لطف‌الله با کاشی‌کاری بی‌نظیر، عالی‌قاپو با ایوان ستوندارش، و قیصریه که دروازه بازار سرپوشیده است. یونسکو این مجموعه را در ۱۹۷۹ به ثبت رساند.`
+  },
+  {
+    name:     "مسجد شیخ لطف‌الله",
+    latin:    "Sheikh Lotfollah Mosque",
+    period:   "صفوی",
+    location: "اصفهان",
+    date:     "1602–1619 CE",
+    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Sheikh_Lotfallah_Esfahan.JPG/1280px-Sheikh_Lotfallah_Esfahan.JPG",
+    desc:     `مسجد شیخ لطف‌الله در ضلع شرقی میدان نقش جهان، به گستردگی به عنوان شاهکار معماری اسلامی جهان شناخته می‌شود. شاه عباس اول آن را برای حرم سلطنتی و به نام پدرزنش بنا نهاد.
+
+ویژگی منحصر به فرد این مسجد نداشتن گلدسته و صحن است؛ از طریق تونلی زیرزمینی به کاخ عالی‌قاپو متصل بود. گنبد کِرِمی رنگ آن که در طول روز سایه‌های متفاوتی می‌گیرد، و نقوش آفتابی درون آن، این مسجد را به تجربه‌ای فراموش‌نشدنی بدل کرده‌اند.`
+  },
+  {
+    name:     "مسجد نصیرالملک",
+    latin:    "Nasir ol Molk Mosque",
+    period:   "قاجار",
+    location: "شیراز، فارس",
+    date:     "1876–1888 CE",
+    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Nasir_ol_Molk_Mosque_%2831233739431%29.jpg/1280px-Nasir_ol_Molk_Mosque_%2831233739431%29.jpg",
+    desc:     `مسجد نصیرالملک که به «مسجد صورتی» شهرت یافته، یکی از خیره‌کننده‌ترین نمونه‌های معماری قاجاری است. پنجره‌های شیشه‌ای رنگارنگ آن در ساعات اولیه صبح، شبستان را به بوم نقاشی‌ای از نور بدل می‌کنند.
+
+کاشی‌کاری ظریف، طاق‌های گچ‌بری‌شده و ستون‌های مارپیچ، هر گوشه از این مسجد را به اثری از هنر اسلامی تبدیل کرده‌اند. بنای آن به دستور میرزا حسن‌علی نصیرالملک از بزرگان قاجار آغاز شد.`
+  },
+  {
+    name:     "ارگ بم",
+    latin:    "Arg-e Bam",
+    period:   "اشکانی–قاجار",
+    location: "بم، کرمان",
+    date:     "3rd c. BCE – 19th c. CE",
+    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Arge_Bam_Arad_edit.jpg/1280px-Arge_Bam_Arad_edit.jpg",
+    desc:     `ارگ بم بزرگ‌ترین سازه خشتی جهان و یکی از کهن‌ترین شهرهای پابرجا بر روی زمین بود. این دژ برای قرن‌ها بر سر جاده ابریشم، نقش یک شهر زنده را ایفا می‌کرد.
+
+زلزله ویرانگر دی‌ماه ۱۳۸۲ بخش بزرگی از آن را فرو ریخت. طرح بازسازی گسترده‌ای با همکاری ایران و جامعه بین‌الملل آغاز شد و یونسکو آن را هم‌زمان در فهرست میراث جهانی و فهرست میراث در خطر قرار داد.`
+  },
+  {
+    name:     "چغازنبیل",
+    latin:    "Chogha Zanbil",
+    period:   "ایلامی",
+    location: "شوش، خوزستان",
+    date:     "c. 1250 BCE",
+    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/%D8%B2%DB%8C%DA%AF%D9%88%D8%B1%D8%A7%D8%AA_%DA%86%D8%BA%D8%A7_%D8%B2%D9%86%D8%A8%DB%8C%D9%84.jpg/1280px-%D8%B2%DB%8C%DA%AF%D9%88%D8%B1%D8%A7%D8%AA_%DA%86%D8%BA%D8%A7_%D8%B2%D9%86%D8%A8%DB%8C%D9%84.jpg",
+    desc:     `چغازنبیل کهن‌ترین زیگورات ایران و نخستین اثری است که در ۱۹۷۹ از این سرزمین در فهرست میراث جهانی یونسکو جای گرفت. اونتاش ناپیریشا، پادشاه ایلام، آن را به منظور ایجاد مرکزی مذهبی برای خدای اینشوشیناک بنا نهاد.
+
+از پنج طبقه اصلی زیگورات، اکنون تنها سه طبقه نخست برجاست. معابد متعددی در پیرامون آن قرار داشتند و دروازه‌هایی از جهات گوناگون به مجموعه دسترسی می‌دادند.`
+  },
+  {
+    name:     "آرامگاه کوروش بزرگ",
+    latin:    "Tomb of Cyrus",
+    period:   "هخامنشی",
+    location: "پاسارگاد، فارس",
+    date:     "c. 530 BCE",
+    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Pasargad_Tomb_Cyrus3.jpg/1280px-Pasargad_Tomb_Cyrus3.jpg",
+    desc:     `آرامگاه کوروش بزرگ، بنیان‌گذار امپراتوری هخامنشی، در دشت مرغاب پاسارگاد ایستاده است. این سازه ساده اما پرشکوه از بلوک‌های سنگ آهکی سفید ساخته شده و بر شش پله به سبک زیگورات استوار است.
+
+اسکندر مقدونی پس از فتح ایران از این آرامگاه بازدید کرد و آن را گرامی داشت. پاسارگاد به عنوان نخستین پایتخت هخامنشی در ۲۰۰۴ در فهرست میراث جهانی یونسکو ثبت شد.`
+  },
+  {
+    name:     "نقش رستم",
+    latin:    "Naqsh-e Rostam",
+    period:   "هخامنشی–ساسانی",
+    location: "مرودشت، فارس",
+    date:     "5th c. BCE – 3rd c. CE",
+    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Naqsh-e_Rustam_necropolis_in_Iran.jpg/1280px-Naqsh-e_Rustam_necropolis_in_Iran.jpg",
+    desc:     `نقش رستم آرامگاه صخره‌ای چهار تن از شاهان هخامنشی است که به شکل صلیب در دل کوه حسین کنده شده‌اند. در پایین این آرامگاه‌ها، نقش‌برجسته‌های شکوهمند ساسانی چشم را خیره می‌کنند.
+
+مشهورترین تصویر، پیروزی شاپور اول بر والرین، امپراتور روم است که سند تصویری کم‌نظیری از روابط ایران و روم به شمار می‌رود. کعبه زردشت، سازه‌ای مرموز مکعبی‌شکل، در برابر آرامگاه‌ها ایستاده است.`
+  },
+  {
+    name:     "برج قابوس",
+    latin:    "Gonbad-e Qabus",
+    period:   "زیاری",
+    location: "گنبدکاووس، گلستان",
+    date:     "1006 CE",
+    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Gonbad-e_Qabus_tower2017.jpg/1280px-Gonbad-e_Qabus_tower2017.jpg",
+    desc:     `برج قابوس، مقبره شمس‌المعالی قابوس بن وشمگیر، امیر هنرپرور سلسله زیاری، با ارتفاع حدود ۷۲ متر از بلندترین آجرپوشی‌های جهان در عصر خود بود. ده پشتوانه مثلثی‌شکل بدنه آجری آن را در دشت گرگان محکم نگه داشته‌اند.
+
+روایت است که تابوت شیشه‌ای قابوس از سقف آن آویزان بود تا هم آفتاب و هم مهتاب بر آن بتابند. یونسکو این برج را در ۲۰۱۲ در فهرست میراث جهانی ثبت کرد.`
+  },
+  {
+    name:     "کاخ گلستان",
+    latin:    "Golestan Palace",
+    period:   "قاجار",
+    location: "تهران",
+    date:     "17th–19th c. CE",
+    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Palais_du_Golestan%2C_T%C3%A9h%C3%A9ran_%285%29.jpg/1280px-Palais_du_Golestan%2C_T%C3%A9h%C3%A9ran_%285%29.jpg",
+    desc:     `کاخ گلستان قدیمی‌ترین مجموعه تاریخی تهران و مرکز حکومت سلسله قاجار بود. این کاخ آمیزه‌ای بی‌نظیر از هنر ایرانی و تأثیرات اروپایی است که در دوره‌ای طولانی شکل گرفت.
+
+هفده بنای تاریخی از جمله تالار آینه با آینه‌کاری‌های خیره‌کننده‌اش، کاخ شمس‌العماره، عمارت بادگیر و باغ تاریخی این مجموعه را می‌سازند. یونسکو کاخ گلستان را در ۲۰۱۳ در فهرست میراث جهانی ثبت کرد.`
+  },
+  {
+    name:     "طاق بستان",
+    latin:    "Taq-e Bostan",
+    period:   "ساسانی",
+    location: "کرمانشاه",
+    date:     "4th–7th c. CE",
+    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/%D8%AA%D8%A7%D9%82%E2%80%8C%D8%A8%D8%B3%D8%AA%D8%A7%D9%86.jpg/1280px-%D8%AA%D8%A7%D9%82%E2%80%8C%D8%A8%D8%B3%D8%AA%D8%A7%D9%86.jpg",
+    desc:     `طاق بستان مجموعه‌ای از نقش‌برجسته‌های سنگی ساسانی است که در دامنه کوه پراو، کنار چشمه‌ای دائمی در کرمانشاه، حک شده‌اند. این آثار از شاهکارهای هنر ساسانی در خاورمیانه به شمار می‌روند.
+
+بزرگ‌ترین ایوان متعلق به خسرو دوم است و صحنه‌های شکار با فیل و گراز را به شکلی پرجزئیات به تصویر می‌کشد. ایوان کوچک‌تر مراسم تاج‌گذاری اردشیر دوم را نشان می‌دهد.`
+  },
+  {
+    name:     "مسجد جامع یزد",
+    latin:    "Jameh Mosque of Yazd",
+    period:   "ایلخانی–تیموری",
+    location: "یزد",
+    date:     "12th–15th c. CE",
+    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Jameh_Mosque_of_Yazd_Iran.jpg/1280px-Jameh_Mosque_of_Yazd_Iran.jpg",
+    desc:     `مسجد جامع یزد با مناره‌های باشکوه و کاشی‌کاری فیروزه‌ای خود یکی از بلندترین مساجد ایران است. پیشینه آن به قرن دوازدهم برمی‌گردد، اما بخش اعظم ساختار کنونی در دوران ایلخانی و تیموری شکل گرفت.
+
+کتیبه‌های نفیس کوفی، محراب گچ‌بری‌شده و گنبد دوجداره کاشی‌کاری‌شده از دیدنی‌ترین بخش‌های این مسجدند. یزد در ۲۰۱۷ به عنوان یک شهر تاریخی در فهرست میراث جهانی یونسکو جای گرفت.`
+  }
+];
+
+/* ── Helpers ────────────────────────────────────────────────── */
+function toPersian(n) {
+  return String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+}
+
+function toHTML(text) {
+  return text.trim().split(/\n\n+/).map(p => `<p>${p.trim()}</p>`).join('');
+}
+
+/* ── State ──────────────────────────────────────────────────── */
+let current      = -1;
+let savedScrollY = 0;
+let lastCard     = null;
+
+/* ── Build gallery ──────────────────────────────────────────── */
+(function build() {
+  const gallery = document.getElementById('gallery');
+
+  gallery.innerHTML = MONUMENTS.map((m, i) => `
+    <article
+      class="card"
+      tabindex="0"
+      role="button"
+      aria-label="${m.name}، ${m.location}"
+      data-index="${i}"
+      style="animation-delay: ${i * 0.045}s"
+    >
+      <img
+        class="card-img"
+        src="${m.img}"
+        alt="${m.name}"
+        loading="lazy"
+        onerror="this.style.opacity='0'"
+      >
+      <div class="card-shade" aria-hidden="true"></div>
+      <div class="card-body">
+        <span class="card-date">${m.date}</span>
+        <div class="card-name">${m.name}</div>
+        <div class="card-place">${m.location}</div>
+      </div>
+    </article>
+  `).join('');
+
+  gallery.addEventListener('click', e => {
+    const card = e.target.closest('[data-index]');
+    if (card) { lastCard = card; openDetail(+card.dataset.index); }
+  });
+
+  gallery.addEventListener('keydown', e => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const card = e.target.closest('[data-index]');
+    if (card) { e.preventDefault(); lastCard = card; openDetail(+card.dataset.index); }
+  });
+})();
+
+/* ── Open detail ────────────────────────────────────────────── */
+function openDetail(idx) {
+  current      = idx;
+  savedScrollY = window.scrollY;
+  const m      = MONUMENTS[idx];
+
+  document.getElementById('d-img').src       = m.img;
+  document.getElementById('d-img').alt       = m.name;
+  document.getElementById('d-title').textContent    = m.name;
+  document.getElementById('d-latin').textContent    = m.latin;
+  document.getElementById('d-period').textContent   = m.period;
+  document.getElementById('d-location').textContent = m.location;
+  document.getElementById('d-date').textContent     = m.date;
+  document.getElementById('detail-count').textContent =
+    `${toPersian(idx + 1)} از ${toPersian(MONUMENTS.length)}`;
+  document.getElementById('d-desc').innerHTML = toHTML(m.desc);
+
+  document.getElementById('btn-prev').disabled = idx === 0;
+  document.getElementById('btn-next').disabled = idx === MONUMENTS.length - 1;
+
+  const gallery = document.getElementById('gallery');
+  const detail  = document.getElementById('detail');
+
+  gallery.style.display = 'none';
+  gallery.setAttribute('aria-hidden', 'true');
+
+  detail.classList.add('active');
+  detail.removeAttribute('aria-hidden');
+
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  document.getElementById('btn-back').focus();
+}
+
+/* ── Close detail ───────────────────────────────────────────── */
+function closeDetail() {
+  const gallery = document.getElementById('gallery');
+  const detail  = document.getElementById('detail');
+
+  detail.classList.remove('active');
+  detail.setAttribute('aria-hidden', 'true');
+
+  gallery.style.display = '';
+  gallery.removeAttribute('aria-hidden');
+
+  window.scrollTo({ top: savedScrollY, behavior: 'instant' });
+  if (lastCard) lastCard.focus();
+}
+
+/* ── Navigate prev / next ───────────────────────────────────── */
+function navigate(dir) {
+  const next = current + dir;
+  if (next >= 0 && next < MONUMENTS.length) openDetail(next);
+}
+
+/* ── Keyboard shortcuts ─────────────────────────────────────── */
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('detail').classList.contains('active')) return;
+  if (e.key === 'Escape')      closeDetail();
+  if (e.key === 'ArrowLeft')   navigate(1);   // RTL: left = next in sequence
+  if (e.key === 'ArrowRight')  navigate(-1);  // RTL: right = previous in sequence
+});
+</script>
+
+</body>
+</html>
