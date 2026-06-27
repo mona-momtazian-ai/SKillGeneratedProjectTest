@@ -7,32 +7,42 @@
   <title>گالری آثار باستانی ایران</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600&family=IM+Fell+English:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    /* ── Design tokens ───────────────────────────────────────── */
+    /* ── Design tokens ──────────────────────────────────────────── */
     :root {
-      --ground:      #0f0c0a;
-      --surface:     #161210;
-      --card-bg:     #1c1712;
-      --border:      #2b2018;
-      --border-dim:  #1e1710;
-      --text:        #e5d8c4;
-      --text-2:      #7a6c5e;
-      --text-3:      #3f342c;
-      --accent:      #5b8fa8;
-      --accent-dim:  #1d3d50;
-      --accent-glow: rgba(91,143,168,0.12);
-      --gold:        #b89a58;
-      --gold-dim:    #564726;
-      --ease-out:    cubic-bezier(0.4, 0, 0.2, 1);
+      /* Grounds — midnight indigo, not warm brown */
+      --bg:          #09091e;
+      --surface-1:   #0d0d26;
+      --surface-2:   #12122e;
+      --card-bg:     #0f0f28;
+
+      /* Borders — antique gold hairlines */
+      --border-lo:   rgba(155, 128, 72, 0.10);
+      --border:      rgba(155, 128, 72, 0.20);
+      --border-hi:   rgba(155, 128, 72, 0.42);
+
+      /* Text */
+      --text:        #f0e8d4;
+      --text-2:      #8b7f6c;
+      --text-3:      #3e3628;
+
+      /* Accent palette — Persian tile colors */
+      --lapis:       #4f72b5;
+      --lapis-glow:  rgba(79, 114, 181, 0.12);
+      --gold:        #c49650;
+      --gold-dim:    rgba(196, 150, 80, 0.12);
+      --turquoise:   #3d9080;
+
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* ── Reset ───────────────────────────────────────────────── */
+    /* ── Reset ──────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { font-size: 16px; scroll-behavior: smooth; }
 
     body {
-      background: var(--ground);
+      background: var(--bg);
       color: var(--text);
       font-family: 'Vazirmatn', Tahoma, 'Arial Unicode MS', sans-serif;
       font-weight: 400;
@@ -41,82 +51,136 @@
       overflow-x: hidden;
     }
 
-    /* ── Site header ─────────────────────────────────────────── */
-    .header {
-      padding: 4.5rem 2rem 3.5rem;
-      text-align: center;
+    /* ── Site header ────────────────────────────────────────────── */
+    .site-header {
       position: relative;
+      overflow: hidden;
     }
 
-    /* thin accent underline as separator */
-    .header::after {
+    /* Lattice background — references the geometric tile tradition */
+    .site-header::before {
       content: '';
-      display: block;
       position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 48px;
-      height: 1px;
-      background: var(--accent);
-      opacity: 0.55;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(79, 114, 181, 0.10) 0%, transparent 70%),
+        repeating-linear-gradient(
+          60deg,
+          transparent 0, transparent 39px,
+          rgba(155, 128, 72, 0.05) 39px, rgba(155, 128, 72, 0.05) 40px
+        ),
+        repeating-linear-gradient(
+          -60deg,
+          transparent 0, transparent 39px,
+          rgba(155, 128, 72, 0.05) 39px, rgba(155, 128, 72, 0.05) 40px
+        );
+      pointer-events: none;
+    }
+
+    .header-inner {
+      position: relative;
+      z-index: 1;
+      padding: 5.5rem 2rem 4.5rem;
+      text-align: center;
+      max-width: 860px;
+      margin: 0 auto;
     }
 
     .header-eyebrow {
-      font-family: 'Space Mono', 'Courier New', monospace;
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
       font-size: 0.6rem;
-      letter-spacing: 0.28em;
-      color: var(--accent);
+      letter-spacing: 0.32em;
+      color: var(--lapis);
       text-transform: uppercase;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.6rem;
       display: block;
-      opacity: 0.8;
+      opacity: 0.75;
     }
 
-    .header-title {
-      font-size: clamp(1.7rem, 4vw, 2.9rem);
-      font-weight: 300;
-      letter-spacing: -0.025em;
+    /* Primary display: IM Fell English italic — archaeological authority */
+    .header-title-en {
+      font-family: 'IM Fell English', Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(2.4rem, 6vw, 4.8rem);
+      font-weight: 400;
       color: var(--text);
-      line-height: 1.15;
-      margin-bottom: 0.6rem;
+      letter-spacing: 0.01em;
+      line-height: 1.1;
+      margin-bottom: 0.7rem;
+    }
+
+    .header-title-fa {
+      display: block;
+      font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+      font-weight: 300;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+      opacity: 0.82;
     }
 
     .header-sub {
       font-size: 0.83rem;
       color: var(--text-2);
       font-weight: 300;
-      letter-spacing: 0.01em;
     }
 
-    /* ── Gallery grid ────────────────────────────────────────── */
+    /* ── Girih tile divider — the page's signature element ──────── */
+    /* Interlocking diamond strapwork references Persian geometric
+       architecture (Girih tiles, ~1100 CE onward). The pattern marks
+       the boundary between museum context and artifact space. */
+    .girih-divider {
+      position: relative;
+      height: 48px;
+      overflow: hidden;
+    }
+
+    /* ── Gallery grid ───────────────────────────────────────────── */
     #gallery {
-      max-width: 1320px;
+      max-width: 1380px;
       margin: 0 auto;
-      padding: 3.5rem 1.5rem 7rem;
+      padding: 3.5rem 1.5rem 8rem;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
+      grid-auto-rows: 272px;
+      gap: 1.5rem;
     }
 
-    /* ── Card ────────────────────────────────────────────────── */
+    /* Persepolis anchors the gallery: 2 cols × 2 rows */
+    #gallery > .card:first-child {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    /* ── Card ───────────────────────────────────────────────────── */
     .card {
       position: relative;
-      aspect-ratio: 4 / 3;
       overflow: hidden;
       cursor: pointer;
-      background: var(--card-bg);
-      /* hatched texture fallback when image is missing */
-      background-image:
-        repeating-linear-gradient(
-          45deg,
-          var(--border-dim) 0px, var(--border-dim) 1px,
-          transparent 1px, transparent 14px
-        );
+      background-color: var(--card-bg);
+      background-image: repeating-linear-gradient(
+        45deg,
+        var(--border-lo) 0, var(--border-lo) 1px,
+        transparent 1px, transparent 16px
+      );
+      border: 1px solid var(--border-lo);
       outline: none;
+      transition: border-color 0.35s var(--ease);
+      animation: cardIn 0.6s var(--ease) both;
     }
 
-    /* accent top line that expands on hover */
+    .card:hover,
+    .card:focus-visible {
+      border-color: var(--border-hi);
+    }
+
+    .card:focus-visible {
+      outline: 2px solid var(--lapis);
+      outline-offset: 3px;
+    }
+
+    /* Gold-to-turquoise accent — Persian tile colors, expands from RTL-start */
     .card::before {
       content: '';
       position: absolute;
@@ -124,76 +188,60 @@
       right: 0;
       width: 0;
       height: 2px;
-      background: var(--accent);
+      background: linear-gradient(to left, var(--gold), var(--turquoise));
       z-index: 4;
-      transition: width 0.45s var(--ease-out);
+      transition: width 0.5s var(--ease);
     }
 
-    /* focus/hover border */
-    .card::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border: 1px solid transparent;
-      z-index: 3;
-      pointer-events: none;
-      transition: border-color 0.3s ease;
+    .card:hover::before,
+    .card:focus-visible::before {
+      width: 55%;
     }
-
-    .card:hover::before, .card:focus-visible::before { width: 45%; }
-    .card:hover::after,  .card:focus-visible::after  { border-color: rgba(91,143,168,0.35); }
-
-    .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
     .card-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      opacity: 0.78;
-      transition: transform 0.75s var(--ease-out), opacity 0.5s ease;
+      opacity: 0.72;
+      transition: transform 0.8s var(--ease), opacity 0.5s ease;
     }
 
     .card:hover .card-img,
     .card:focus-visible .card-img {
       transform: scale(1.065);
-      opacity: 1;
+      opacity: 0.92;
     }
 
-    /* gradient overlay */
     .card-shade {
       position: absolute;
       inset: 0;
       background: linear-gradient(
         to top,
-        rgba(15,12,10,0.96) 0%,
-        rgba(15,12,10,0.55) 35%,
-        rgba(15,12,10,0.08) 65%
+        rgba(9, 9, 30, 0.97) 0%,
+        rgba(9, 9, 30, 0.52) 38%,
+        rgba(9, 9, 30, 0.04) 68%
       );
       z-index: 1;
-      transition: opacity 0.4s ease;
     }
 
-    .card:hover .card-shade { opacity: 0.78; }
-
-    /* card text */
     .card-body {
       position: absolute;
       bottom: 0;
       right: 0;
       left: 0;
-      padding: 1.1rem 1.1rem 0.95rem;
+      padding: 1.2rem 1.2rem 1rem;
       z-index: 2;
     }
 
     .card-date {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.56rem;
-      letter-spacing: 0.14em;
-      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.54rem;
+      letter-spacing: 0.18em;
+      color: var(--lapis);
       margin-bottom: 0.28rem;
       display: block;
-      opacity: 0.75;
+      opacity: 0.8;
     }
 
     .card-name {
@@ -203,15 +251,39 @@
       line-height: 1.3;
     }
 
-    .card-place {
+    .card-latin {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-style: italic;
       font-size: 0.7rem;
+      color: var(--gold);
+      opacity: 0.55;
+      margin-top: 0.14rem;
+      display: block;
+    }
+
+    .card-place {
+      font-size: 0.68rem;
       color: var(--text-2);
       margin-top: 0.18rem;
     }
 
-    /* entrance animation — staggered per card */
-    .card {
-      animation: cardIn 0.55s var(--ease-out) both;
+    /* Feature card: larger body text */
+    #gallery > .card:first-child .card-body {
+      padding: 1.75rem 1.75rem 1.5rem;
+    }
+
+    #gallery > .card:first-child .card-date {
+      font-size: 0.64rem;
+      margin-bottom: 0.42rem;
+    }
+
+    #gallery > .card:first-child .card-name {
+      font-size: 1.5rem;
+    }
+
+    #gallery > .card:first-child .card-latin {
+      font-size: 0.92rem;
+      opacity: 0.65;
     }
 
     @keyframes cardIn {
@@ -219,7 +291,7 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── Detail view ─────────────────────────────────────────── */
+    /* ── Detail view ────────────────────────────────────────────── */
     #detail {
       display: none;
       min-height: 100vh;
@@ -227,7 +299,7 @@
 
     #detail.active {
       display: block;
-      animation: detailIn 0.38s var(--ease-out) both;
+      animation: detailIn 0.4s var(--ease) both;
     }
 
     @keyframes detailIn {
@@ -235,23 +307,161 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* sticky bar */
+    /* Sticky bar */
     .detail-bar {
       position: sticky;
       top: 0;
       z-index: 20;
-      background: rgba(15,12,10,0.85);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      background: rgba(9, 9, 30, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.8rem 1.5rem;
+      padding: 0.85rem 1.5rem;
       gap: 1rem;
     }
 
     .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-2);
+      font-family: 'Vazirmatn', sans-serif;
+      font-size: 0.78rem;
+      padding: 0.42rem 0.95rem;
+      cursor: pointer;
+      transition: color 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+    }
+
+    .btn-back:hover {
+      border-color: var(--border-hi);
+      color: var(--gold);
+      background: var(--gold-dim);
+    }
+
+    .btn-back:focus-visible {
+      outline: 2px solid var(--lapis);
+      outline-offset: 2px;
+    }
+
+    .btn-back svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
+
+    .detail-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--text-3);
+      letter-spacing: 0.1em;
+      user-select: none;
+    }
+
+    /* Hero image */
+    .detail-hero {
+      position: relative;
+      height: min(65vh, 600px);
+      overflow: hidden;
+      background: var(--surface-1);
+    }
+
+    .detail-hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0.85;
+    }
+
+    .detail-hero-fade {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 70%;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    /* Content column */
+    .detail-content {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 6rem;
+    }
+
+    /* Tags */
+    .detail-tags {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.57rem;
+      letter-spacing: 0.15em;
+      padding: 0.2rem 0.6rem;
+      border: 1px solid;
+      line-height: 1.6;
+      text-transform: uppercase;
+    }
+
+    .tag-period   { color: var(--lapis);  border-color: rgba(79, 114, 181, 0.28); }
+    .tag-location { color: var(--text-2); border-color: var(--border); }
+    .tag-date     { color: var(--text-3); border-color: transparent; font-size: 0.55rem; }
+
+    .detail-title {
+      font-size: clamp(2rem, 5.5vw, 3.4rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+
+    .detail-latin {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--gold);
+      opacity: 0.6;
+      display: block;
+      margin-bottom: 2rem;
+    }
+
+    /* Gradient rule — mirrors the card accent line */
+    .detail-rule {
+      width: 36px;
+      height: 2px;
+      background: linear-gradient(to left, var(--gold), var(--turquoise));
+      opacity: 0.55;
+      margin-bottom: 2rem;
+    }
+
+    .detail-desc {
+      font-size: 0.97rem;
+      line-height: 2.1;
+      color: var(--text-2);
+      font-weight: 300;
+    }
+
+    .detail-desc p + p { margin-top: 1.1rem; }
+
+    /* Prev / next */
+    .detail-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 3.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn-nav {
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
@@ -260,193 +470,80 @@
       color: var(--text-2);
       font-family: 'Vazirmatn', sans-serif;
       font-size: 0.78rem;
-      padding: 0.4rem 0.9rem;
+      padding: 0.48rem 1.05rem;
       cursor: pointer;
-      transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-    }
-
-    .btn-back:hover {
-      border-color: var(--accent-dim);
-      color: var(--accent);
-      background: var(--accent-glow);
-    }
-
-    .btn-back:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
-    .btn-back svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
-
-    .detail-count {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.62rem;
-      color: var(--text-3);
-      letter-spacing: 0.1em;
-      user-select: none;
-    }
-
-    /* hero image */
-    .detail-hero {
-      position: relative;
-      height: min(64vh, 590px);
-      overflow: hidden;
-      background: var(--surface);
-    }
-
-    .detail-hero-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      opacity: 0.82;
-    }
-
-    /* gradient fades image into dark ground */
-    .detail-hero-fade {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 65%;
-      background: linear-gradient(to bottom, transparent, var(--ground));
-      pointer-events: none;
-    }
-
-    /* content column */
-    .detail-content {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 2rem 1.5rem 5.5rem;
-    }
-
-    /* tag row */
-    .detail-tags {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      margin-bottom: 1.1rem;
-    }
-
-    .tag {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.58rem;
-      letter-spacing: 0.16em;
-      padding: 0.18rem 0.55rem;
-      border: 1px solid;
-      line-height: 1.6;
-    }
-
-    .tag-period   { color: var(--accent); border-color: var(--accent-dim); }
-    .tag-location { color: var(--text-2); border-color: var(--border); }
-    .tag-date     { color: var(--text-3); border-color: transparent; font-size: 0.55rem; }
-
-    .detail-title {
-      font-size: clamp(1.9rem, 5vw, 3.1rem);
-      font-weight: 500;
-      letter-spacing: -0.025em;
-      line-height: 1.12;
-      color: var(--text);
-      margin-bottom: 0.3rem;
-    }
-
-    .detail-latin {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--accent);
-      letter-spacing: 0.06em;
-      opacity: 0.65;
-      margin-bottom: 1.75rem;
-      display: block;
-    }
-
-    /* short accent rule — not decorative, marks where copy begins */
-    .detail-rule {
-      width: 28px;
-      height: 1px;
-      background: var(--accent);
-      opacity: 0.45;
-      margin-bottom: 1.75rem;
-    }
-
-    .detail-desc {
-      font-size: 0.95rem;
-      line-height: 2.05;
-      color: var(--text-2);
-      font-weight: 300;
-    }
-
-    .detail-desc p + p { margin-top: 1rem; }
-
-    /* prev / next navigation */
-    .detail-nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 3rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .btn-nav {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--text-2);
-      font-family: 'Vazirmatn', sans-serif;
-      font-size: 0.78rem;
-      padding: 0.45rem 1rem;
-      cursor: pointer;
-      transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      transition: color 0.22s ease, border-color 0.22s ease, background 0.22s ease;
     }
 
     .btn-nav:hover:not(:disabled) {
-      border-color: var(--accent-dim);
-      color: var(--accent);
-      background: var(--accent-glow);
+      border-color: var(--border-hi);
+      color: var(--gold);
+      background: var(--gold-dim);
     }
 
     .btn-nav:focus-visible {
-      outline: 2px solid var(--accent);
+      outline: 2px solid var(--lapis);
       outline-offset: 2px;
     }
 
-    .btn-nav:disabled { opacity: 0.22; cursor: not-allowed; }
+    .btn-nav:disabled { opacity: 0.2; cursor: not-allowed; }
     .btn-nav svg { width: 14px; height: 14px; fill: currentColor; }
 
-    /* ── Scrollbar ────────────────────────────────────────────── */
+    /* ── Scrollbar ──────────────────────────────────────────────── */
     ::-webkit-scrollbar { width: 3px; }
-    ::-webkit-scrollbar-track { background: var(--ground); }
+    ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-    /* ── Responsive ──────────────────────────────────────────── */
+    /* ── Responsive ─────────────────────────────────────────────── */
     @media (max-width: 1024px) {
-      #gallery { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+      #gallery {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 250px;
+        gap: 1.25rem;
+      }
+      #gallery > .card:first-child {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
     }
 
     @media (max-width: 640px) {
-      .header { padding: 2.75rem 1rem 2.25rem; }
+      .header-inner { padding: 3.5rem 1.25rem 3rem; }
 
       #gallery {
         grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 185px;
         padding: 2rem 0.75rem 5rem;
         gap: 0.75rem;
       }
 
-      .detail-hero { height: min(44vh, 300px); }
+      #gallery > .card:first-child {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
+
+      #gallery > .card:first-child .card-body { padding: 1.2rem 1.2rem 1rem; }
+      #gallery > .card:first-child .card-name { font-size: 1.1rem; }
+      #gallery > .card:first-child .card-latin { font-size: 0.75rem; }
+
+      .detail-hero { height: min(45vh, 320px); }
       .detail-content { padding: 1.5rem 1rem 4rem; }
-      .detail-bar { padding: 0.7rem 1rem; }
+      .detail-bar { padding: 0.75rem 1rem; }
     }
 
     @media (max-width: 400px) {
-      #gallery { grid-template-columns: 1fr; }
-      .card { aspect-ratio: 3 / 2; }
+      #gallery {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+      }
+      .card { aspect-ratio: 4 / 3; }
+      #gallery > .card:first-child {
+        grid-column: span 1;
+        grid-row: span 1;
+      }
     }
 
-    /* ── Reduced motion ──────────────────────────────────────── */
+    /* ── Reduced motion ──────────────────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
       .card, #detail.active { animation: none; }
       .card-img { transition: opacity 0.3s ease; }
@@ -456,23 +553,44 @@
 </head>
 <body>
 
-<!-- ────────── Header ────────── -->
-<header class="header">
-  <span class="header-eyebrow">Iran · Cultural Heritage Gallery</span>
-  <h1 class="header-title">گالری آثار باستانی ایران</h1>
-  <p class="header-sub">نگاهی به شکوه تمدن چندهزارساله</p>
+<!-- ── Header ──────────────────────────────────────────────────── -->
+<header class="site-header">
+  <div class="header-inner">
+    <span class="header-eyebrow">Iran · Cultural Heritage Gallery</span>
+    <h1 class="header-title-en">Monuments of Persia</h1>
+    <span class="header-title-fa">گالری آثار باستانی ایران</span>
+    <p class="header-sub">نگاهی به شکوه تمدن چندهزارساله</p>
+  </div>
+
+  <!-- Girih tile divider: interlocking diamonds drawn from
+       Persian geometric strapwork (~1100 CE). The ornament marks
+       the threshold between contextual header and artifact space. -->
+  <div class="girih-divider" aria-hidden="true">
+    <svg viewBox="0 0 1440 48" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="girih-pat" x="0" y="4" width="96" height="40" patternUnits="userSpaceOnUse">
+          <polygon points="48,0 96,20 48,40 0,20"
+            fill="none" stroke="rgba(196,150,80,0.28)" stroke-width="0.9"/>
+          <polygon points="48,8 88,20 48,32 8,20"
+            fill="none" stroke="rgba(196,150,80,0.11)" stroke-width="0.7"/>
+          <circle cx="48" cy="20" r="1.5" fill="rgba(196,150,80,0.32)"/>
+        </pattern>
+      </defs>
+      <line x1="0" y1="1" x2="1440" y2="1" stroke="rgba(155,128,72,0.24)" stroke-width="1"/>
+      <rect x="0" y="4" width="1440" height="40" fill="url(#girih-pat)"/>
+      <line x1="0" y1="47" x2="1440" y2="47" stroke="rgba(155,128,72,0.12)" stroke-width="1"/>
+    </svg>
+  </div>
 </header>
 
-<!-- ────────── Gallery grid ────────── -->
+<!-- ── Gallery ──────────────────────────────────────────────────── -->
 <main id="gallery" role="main" aria-label="فهرست آثار تاریخی ایران"></main>
 
-<!-- ────────── Detail view ────────── -->
+<!-- ── Detail view ─────────────────────────────────────────────── -->
 <section id="detail" role="region" aria-label="جزئیات اثر" aria-hidden="true">
 
   <nav class="detail-bar" aria-label="ناوبری">
     <button class="btn-back" id="btn-back" onclick="closeDetail()">
-      <!-- right-pointing chevron: in RTL layout this appears on the left of the text,
-           pointing toward RTL-start (right), the spatial "back" direction -->
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
       </svg>
@@ -501,7 +619,7 @@
     <div class="detail-desc" id="d-desc"></div>
 
     <div class="detail-nav">
-      <!-- in RTL flex, btn-prev renders on the right, btn-next on the left -->
+      <!-- In RTL flex: btn-prev renders on the right, btn-next on the left -->
       <button class="btn-nav" id="btn-prev" onclick="navigate(-1)" aria-label="اثر قبلی">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
@@ -519,7 +637,7 @@
 </section>
 
 <script>
-/* ── Monument data ─────────────────────────────────────────── */
+/* ── Monument data ──────────────────────────────────────────────── */
 const MONUMENTS = [
   {
     name:     "تخت جمشید",
@@ -655,7 +773,7 @@ const MONUMENTS = [
   }
 ];
 
-/* ── Helpers ────────────────────────────────────────────────── */
+/* ── Helpers ────────────────────────────────────────────────────── */
 function toPersian(n) {
   return String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
 }
@@ -664,12 +782,12 @@ function toHTML(text) {
   return text.trim().split(/\n\n+/).map(p => `<p>${p.trim()}</p>`).join('');
 }
 
-/* ── State ──────────────────────────────────────────────────── */
+/* ── State ──────────────────────────────────────────────────────── */
 let current      = -1;
 let savedScrollY = 0;
 let lastCard     = null;
 
-/* ── Build gallery ──────────────────────────────────────────── */
+/* ── Build gallery ──────────────────────────────────────────────── */
 (function build() {
   const gallery = document.getElementById('gallery');
 
@@ -680,7 +798,7 @@ let lastCard     = null;
       role="button"
       aria-label="${m.name}، ${m.location}"
       data-index="${i}"
-      style="animation-delay: ${i * 0.045}s"
+      style="animation-delay: ${i * 0.05}s"
     >
       <img
         class="card-img"
@@ -693,6 +811,7 @@ let lastCard     = null;
       <div class="card-body">
         <span class="card-date">${m.date}</span>
         <div class="card-name">${m.name}</div>
+        <span class="card-latin">${m.latin}</span>
         <div class="card-place">${m.location}</div>
       </div>
     </article>
@@ -710,22 +829,22 @@ let lastCard     = null;
   });
 })();
 
-/* ── Open detail ────────────────────────────────────────────── */
+/* ── Open detail ────────────────────────────────────────────────── */
 function openDetail(idx) {
   current      = idx;
   savedScrollY = window.scrollY;
   const m      = MONUMENTS[idx];
 
-  document.getElementById('d-img').src       = m.img;
-  document.getElementById('d-img').alt       = m.name;
-  document.getElementById('d-title').textContent    = m.name;
-  document.getElementById('d-latin').textContent    = m.latin;
-  document.getElementById('d-period').textContent   = m.period;
-  document.getElementById('d-location').textContent = m.location;
-  document.getElementById('d-date').textContent     = m.date;
+  document.getElementById('d-img').src                = m.img;
+  document.getElementById('d-img').alt                = m.name;
+  document.getElementById('d-title').textContent      = m.name;
+  document.getElementById('d-latin').textContent      = m.latin;
+  document.getElementById('d-period').textContent     = m.period;
+  document.getElementById('d-location').textContent   = m.location;
+  document.getElementById('d-date').textContent       = m.date;
   document.getElementById('detail-count').textContent =
     `${toPersian(idx + 1)} از ${toPersian(MONUMENTS.length)}`;
-  document.getElementById('d-desc').innerHTML = toHTML(m.desc);
+  document.getElementById('d-desc').innerHTML         = toHTML(m.desc);
 
   document.getElementById('btn-prev').disabled = idx === 0;
   document.getElementById('btn-next').disabled = idx === MONUMENTS.length - 1;
@@ -743,7 +862,7 @@ function openDetail(idx) {
   document.getElementById('btn-back').focus();
 }
 
-/* ── Close detail ───────────────────────────────────────────── */
+/* ── Close detail ───────────────────────────────────────────────── */
 function closeDetail() {
   const gallery = document.getElementById('gallery');
   const detail  = document.getElementById('detail');
@@ -758,18 +877,18 @@ function closeDetail() {
   if (lastCard) lastCard.focus();
 }
 
-/* ── Navigate prev / next ───────────────────────────────────── */
+/* ── Navigate prev / next ───────────────────────────────────────── */
 function navigate(dir) {
   const next = current + dir;
   if (next >= 0 && next < MONUMENTS.length) openDetail(next);
 }
 
-/* ── Keyboard shortcuts ─────────────────────────────────────── */
+/* ── Keyboard shortcuts ─────────────────────────────────────────── */
 document.addEventListener('keydown', e => {
   if (!document.getElementById('detail').classList.contains('active')) return;
-  if (e.key === 'Escape')      closeDetail();
-  if (e.key === 'ArrowLeft')   navigate(1);   // RTL: left = next in sequence
-  if (e.key === 'ArrowRight')  navigate(-1);  // RTL: right = previous in sequence
+  if (e.key === 'Escape')     closeDetail();
+  if (e.key === 'ArrowLeft')  navigate(1);   // RTL: left = next in sequence
+  if (e.key === 'ArrowRight') navigate(-1);  // RTL: right = previous
 });
 </script>
 
