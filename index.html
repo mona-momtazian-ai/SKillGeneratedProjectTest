@@ -562,47 +562,27 @@
     <p class="header-sub">نگاهی به شکوه تمدن چندهزارساله</p>
   </div>
 
-  <!-- Jali divider: diamond lattice (image 1 — stone jali screen)
-       overlaid with repeating beaded oval medallions (image 2). -->
+  <!-- Floral screen-block divider: replicates the concrete jali block pattern
+       (image 3) — 4 circular arcs cut from each tile corner leave a
+       4-petal cross of positive material, creating repeating round openings. -->
   <div class="jali-divider" aria-hidden="true">
     <svg viewBox="0 0 1440 60" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <!-- 14×14 diamond lattice tile (image 1):
-             diamond outline + interior cross + node dots at each tip -->
-        <pattern id="jali-p" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
-          <polygon points="7,0 14,7 7,14 0,7"
-            fill="none" stroke="rgba(196,150,80,0.34)" stroke-width="0.75"/>
-          <line x1="7" y1="0" x2="7" y2="14"
-            stroke="rgba(196,150,80,0.17)" stroke-width="0.5"/>
-          <line x1="0" y1="7" x2="14" y2="7"
-            stroke="rgba(196,150,80,0.17)" stroke-width="0.5"/>
-          <circle cx="7"  cy="7"  r="0.9" fill="rgba(196,150,80,0.34)"/>
-          <circle cx="0"  cy="0"  r="0.6" fill="rgba(196,150,80,0.20)"/>
-          <circle cx="14" cy="0"  r="0.6" fill="rgba(196,150,80,0.20)"/>
-          <circle cx="0"  cy="14" r="0.6" fill="rgba(196,150,80,0.20)"/>
-          <circle cx="14" cy="14" r="0.6" fill="rgba(196,150,80,0.20)"/>
-        </pattern>
-        <!-- 84×60 oval medallion tile (image 2):
-             beaded outer ellipse (stroke-dasharray = bead texture),
-             inner concentric ellipse, center node, capped tips -->
-        <pattern id="oval-p" x="0" y="0" width="84" height="60" patternUnits="userSpaceOnUse">
-          <ellipse cx="42" cy="30" rx="24" ry="12"
-            fill="rgba(9,9,30,0.58)"
-            stroke="rgba(196,150,80,0.56)" stroke-width="1.4"
-            stroke-dasharray="2.6,1.8"/>
-          <ellipse cx="42" cy="30" rx="15" ry="7"
-            fill="none" stroke="rgba(196,150,80,0.26)" stroke-width="0.7"/>
-          <circle cx="42" cy="30" r="2.2" fill="rgba(196,150,80,0.64)"/>
-          <circle cx="18" cy="30" r="2.6"
-            fill="rgba(9,9,30,0.88)" stroke="rgba(196,150,80,0.64)" stroke-width="1.1"/>
-          <circle cx="66" cy="30" r="2.6"
-            fill="rgba(9,9,30,0.88)" stroke="rgba(196,150,80,0.64)" stroke-width="1.1"/>
+        <!-- 30×30 tile: four corner circles (r=11) remove the dark background,
+             leaving gold cross-petal arms — two full rows fit the 60px band. -->
+        <pattern id="floral-p" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+          <!-- Positive (raised) material — gold fill -->
+          <rect width="30" height="30" fill="rgba(196,150,80,0.19)"/>
+          <!-- Corner circles cut the openings; gold stroke traces the arc boundary -->
+          <circle cx="0"  cy="0"  r="11" fill="rgba(9,9,30,0.97)" stroke="rgba(196,150,80,0.52)" stroke-width="1"/>
+          <circle cx="30" cy="0"  r="11" fill="rgba(9,9,30,0.97)" stroke="rgba(196,150,80,0.52)" stroke-width="1"/>
+          <circle cx="0"  cy="30" r="11" fill="rgba(9,9,30,0.97)" stroke="rgba(196,150,80,0.52)" stroke-width="1"/>
+          <circle cx="30" cy="30" r="11" fill="rgba(9,9,30,0.97)" stroke="rgba(196,150,80,0.52)" stroke-width="1"/>
         </pattern>
       </defs>
-      <line x1="0" y1="1"  x2="1440" y2="1"  stroke="rgba(155,128,72,0.28)" stroke-width="1"/>
-      <rect x="0" y="2" width="1440" height="56" fill="url(#jali-p)"/>
-      <rect x="0" y="2" width="1440" height="56" fill="url(#oval-p)"/>
-      <line x1="0" y1="59" x2="1440" y2="59" stroke="rgba(155,128,72,0.14)" stroke-width="1"/>
+      <line x1="0" y1="0.5" x2="1440" y2="0.5" stroke="rgba(155,128,72,0.42)" stroke-width="1"/>
+      <rect x="0" y="0" width="1440" height="60" fill="url(#floral-p)"/>
+      <line x1="0" y1="59.5" x2="1440" y2="59.5" stroke="rgba(155,128,72,0.2)" stroke-width="1"/>
     </svg>
   </div>
 </header>
