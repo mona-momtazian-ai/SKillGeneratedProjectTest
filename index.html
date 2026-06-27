@@ -182,16 +182,19 @@
       cursor: pointer;
       background: var(--card-bg);
       border: 1px solid var(--b0);
-      border-radius: 2px;
+      border-radius: 14px;
       outline: none;
-      transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.4), 0 1px 3px rgba(0,0,0,0.3);
+      transform: translateY(0);
+      transition: border-color 0.3s var(--ease), box-shadow 0.4s var(--ease), transform 0.32s var(--ease);
       animation: cardIn 0.55s var(--ease) both;
     }
     .card:hover, .card:focus-visible {
       border-color: var(--b1);
-      box-shadow: 0 10px 44px rgba(0,0,0,0.45);
+      box-shadow: 0 18px 52px rgba(0,0,0,0.58), 0 6px 18px rgba(0,0,0,0.32);
+      transform: translateY(-4px);
     }
-    .card:focus-visible { outline: 2px solid var(--firuze); outline-offset: 3px; }
+    .card:focus-visible { outline: 2px solid var(--firuze); outline-offset: 4px; border-radius: 14px; }
 
     /* Saffron sweep on hover */
     .card::before {
@@ -239,18 +242,20 @@
     .card-body {
       position: absolute;
       bottom: 0; right: 0; left: 0;
-      padding: 1.2rem 1.15rem 1rem;
+      padding: 1.2rem 1.25rem 1.25rem;
       z-index: 2;
     }
     .card-era-chip {
       display: inline-block;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.5rem;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.14em;
       color: var(--firuze);
-      border: 1px solid rgba(31,136,120,0.35);
-      padding: 0.12rem 0.45rem;
-      margin-bottom: 0.38rem;
+      border: 1px solid rgba(31,136,120,0.32);
+      border-radius: 20px;
+      background: rgba(31,136,120,0.08);
+      padding: 0.15rem 0.65rem;
+      margin-bottom: 0.44rem;
     }
     .card-name {
       font-size: 1.0rem;
@@ -481,6 +486,7 @@
       .header-tagline, .header-stats, .header-eras { animation: none; }
       .card-img { transition: opacity 0.3s ease; }
       .card:hover .card-img { transform: none; }
+      .card:hover, .card:focus-visible { transform: none; }
       .shamseh-svg { animation: none; }
     }
   </style>
