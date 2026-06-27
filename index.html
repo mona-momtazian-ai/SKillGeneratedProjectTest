@@ -9,41 +9,36 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600&family=IM+Fell+English:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    /* ── Design tokens ──────────────────────────────────────────── */
+    /* ── Design tokens ─────────────────────────────────────────── */
     :root {
-      /* Grounds — midnight indigo, not warm brown */
-      --bg:          #09091e;
-      --surface-1:   #0d0d26;
-      --surface-2:   #12122e;
-      --card-bg:     #0f0f28;
+      --bg:        #080712;
+      --sf1:       #0b0a1d;
+      --sf2:       #101028;
+      --card-bg:   #0d0c22;
 
-      /* Borders — antique gold hairlines */
-      --border-lo:   rgba(155, 128, 72, 0.10);
-      --border:      rgba(155, 128, 72, 0.20);
-      --border-hi:   rgba(155, 128, 72, 0.42);
+      --gold:      #be9232;
+      --gold-dim:  rgba(190,146,50,0.09);
+      --copper:    #8a5535;
+      --jade:      #3d7e70;
+      --lapis:     #2e5498;
 
-      /* Text */
-      --text:        #f0e8d4;
-      --text-2:      #8b7f6c;
-      --text-3:      #3e3628;
+      --b0: rgba(190,150,50,0.07);
+      --b1: rgba(190,150,50,0.18);
+      --b2: rgba(190,150,50,0.48);
 
-      /* Accent palette — Persian tile colors */
-      --lapis:       #4f72b5;
-      --lapis-glow:  rgba(79, 114, 181, 0.12);
-      --gold:        #c49650;
-      --gold-dim:    rgba(196, 150, 80, 0.12);
-      --turquoise:   #3d9080;
+      --tx:  #ede0c4;
+      --tx2: #7a6e56;
+      --tx3: #3a3220;
 
-      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      --ease: cubic-bezier(0.4,0,0.2,1);
     }
 
-    /* ── Reset ──────────────────────────────────────────────────── */
+    /* ── Reset ─────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { font-size: 16px; scroll-behavior: smooth; }
-
     body {
       background: var(--bg);
-      color: var(--text);
+      color: var(--tx);
       font-family: 'Vazirmatn', Tahoma, 'Arial Unicode MS', sans-serif;
       font-weight: 400;
       line-height: 1.7;
@@ -51,151 +46,171 @@
       overflow-x: hidden;
     }
 
-    /* ── Site header ────────────────────────────────────────────── */
-    .site-header {
-      position: relative;
-      overflow: hidden;
-    }
+    /* ── Header ────────────────────────────────────────────────── */
+    .site-header { position: relative; overflow: hidden; }
 
-    /* Lattice background — references the geometric tile tradition */
     .site-header::before {
       content: '';
       position: absolute;
       inset: 0;
-      background-image:
-        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(79, 114, 181, 0.10) 0%, transparent 70%),
-        repeating-linear-gradient(
-          60deg,
-          transparent 0, transparent 39px,
-          rgba(155, 128, 72, 0.05) 39px, rgba(155, 128, 72, 0.05) 40px
-        ),
-        repeating-linear-gradient(
-          -60deg,
-          transparent 0, transparent 39px,
-          rgba(155, 128, 72, 0.05) 39px, rgba(155, 128, 72, 0.05) 40px
-        );
+      background:
+        radial-gradient(ellipse 90% 70% at 50% -5%, rgba(46,84,152,0.16) 0%, transparent 62%),
+        repeating-linear-gradient(60deg,  transparent 0, transparent 39px, rgba(190,150,50,0.04) 39px, rgba(190,150,50,0.04) 40px),
+        repeating-linear-gradient(-60deg, transparent 0, transparent 39px, rgba(190,150,50,0.04) 39px, rgba(190,150,50,0.04) 40px);
       pointer-events: none;
     }
 
     .header-inner {
       position: relative;
       z-index: 1;
-      padding: 5.5rem 2rem 4.5rem;
+      padding: 5rem 2rem 4rem;
       text-align: center;
-      max-width: 860px;
+      max-width: 920px;
       margin: 0 auto;
     }
 
-    .header-eyebrow {
+    /* Chronological dynasty eyebrow */
+    .header-eras {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0 0.38rem;
+      margin-bottom: 2.4rem;
       font-family: 'JetBrains Mono', 'Courier New', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.32em;
-      color: var(--lapis);
-      text-transform: uppercase;
-      margin-bottom: 1.6rem;
-      display: block;
-      opacity: 0.75;
+      font-size: 0.56rem;
+      letter-spacing: 0.24em;
+      color: var(--tx2);
+      animation: fadeUp 0.8s var(--ease) both;
     }
+    .header-eras span { text-transform: uppercase; }
+    .era-dot { color: var(--gold); opacity: 0.4; }
 
-    /* Primary display: IM Fell English italic — archaeological authority */
-    .header-title-en {
-      font-family: 'IM Fell English', Georgia, 'Times New Roman', serif;
+    /* English display title — the dominant element */
+    .title-en {
+      display: block;
+      font-family: 'IM Fell English', 'Palatino Linotype', Georgia, serif;
       font-style: italic;
-      font-size: clamp(2.4rem, 6vw, 4.8rem);
+      font-size: clamp(2.8rem, 7vw, 5.8rem);
       font-weight: 400;
-      color: var(--text);
-      letter-spacing: 0.01em;
-      line-height: 1.1;
-      margin-bottom: 0.7rem;
+      letter-spacing: -0.028em;
+      line-height: 1.0;
+      color: var(--tx);
+      margin-bottom: 0.55rem;
+      animation: fadeUp 0.85s var(--ease) 0.1s both;
     }
 
-    .header-title-fa {
+    /* Persian subtitle — subordinate, in gold */
+    .title-fa {
       display: block;
-      font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+      font-size: clamp(1.05rem, 2.2vw, 1.5rem);
       font-weight: 300;
       color: var(--gold);
-      letter-spacing: 0.04em;
+      letter-spacing: 0.06em;
       line-height: 1.3;
-      margin-bottom: 1rem;
+      margin-bottom: 0.85rem;
       opacity: 0.82;
+      animation: fadeUp 0.85s var(--ease) 0.22s both;
     }
 
-    .header-sub {
-      font-size: 0.83rem;
-      color: var(--text-2);
+    .header-tagline {
+      font-size: 0.78rem;
+      color: var(--tx2);
       font-weight: 300;
+      animation: fadeUp 0.85s var(--ease) 0.32s both;
     }
 
-    /* ── Girih tile divider — the page's signature element ──────── */
-    /* Interlocking diamond strapwork references Persian geometric
-       architecture (Girih tiles, ~1100 CE onward). The pattern marks
-       the boundary between museum context and artifact space. */
-    .jali-divider {
-      position: relative;
-      height: 60px;
-      overflow: hidden;
+    /* Stats row */
+    .header-stats {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2.75rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--b0);
+      animation: fadeUp 0.85s var(--ease) 0.44s both;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--tx);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .stat-label {
+      display: block;
+      font-size: 0.63rem;
+      color: var(--tx2);
+      margin-top: 0.28rem;
+      letter-spacing: 0.04em;
+    }
+    .stat-sep {
+      width: 1px;
+      height: 36px;
+      background: var(--b1);
+      flex-shrink: 0;
     }
 
-    /* ── Gallery grid ───────────────────────────────────────────── */
+    /* ── Floral screen-block divider ───────────────────────────── */
+    .site-divider { position: relative; height: 60px; overflow: hidden; }
+
+    /* ── Gallery ───────────────────────────────────────────────── */
     #gallery {
-      max-width: 1380px;
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 3.5rem 1.5rem 8rem;
+      padding: 3rem 1.5rem 8rem;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-auto-rows: 272px;
-      gap: 1.5rem;
+      grid-auto-rows: 280px;
+      gap: 1.25rem;
     }
+    #gallery > .card:first-child { grid-column: span 2; grid-row: span 2; }
 
-    /* Persepolis anchors the gallery: 2 cols × 2 rows */
-    #gallery > .card:first-child {
-      grid-column: span 2;
-      grid-row: span 2;
-    }
-
-    /* ── Card ───────────────────────────────────────────────────── */
+    /* ── Card ──────────────────────────────────────────────────── */
     .card {
       position: relative;
       overflow: hidden;
       cursor: pointer;
-      background-color: var(--card-bg);
-      background-image: repeating-linear-gradient(
-        45deg,
-        var(--border-lo) 0, var(--border-lo) 1px,
-        transparent 1px, transparent 16px
-      );
-      border: 1px solid var(--border-lo);
+      background: var(--card-bg);
+      border: 1px solid var(--b0);
       outline: none;
-      transition: border-color 0.35s var(--ease);
-      animation: cardIn 0.6s var(--ease) both;
+      transition: border-color 0.3s var(--ease);
+      animation: cardIn 0.55s var(--ease) both;
     }
+    .card:hover, .card:focus-visible { border-color: var(--b1); }
+    .card:focus-visible { outline: 2px solid var(--lapis); outline-offset: 3px; }
 
-    .card:hover,
-    .card:focus-visible {
-      border-color: var(--border-hi);
-    }
-
-    .card:focus-visible {
-      outline: 2px solid var(--lapis);
-      outline-offset: 3px;
-    }
-
-    /* Gold-to-turquoise accent — Persian tile colors, expands from RTL-start */
-    .card::before {
+    /* Expanding gold-to-jade hairline on hover */
+    .card::after {
       content: '';
       position: absolute;
-      top: 0;
-      right: 0;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(to left, var(--gold), var(--turquoise));
-      z-index: 4;
+      top: 0; right: 0;
+      width: 0; height: 2px;
+      background: linear-gradient(to left, var(--gold), var(--jade));
+      z-index: 5;
       transition: width 0.5s var(--ease);
     }
+    .card:hover::after, .card:focus-visible::after { width: 62%; }
 
-    .card:hover::before,
-    .card:focus-visible::before {
-      width: 55%;
+    /* Copper period badge — the design's distinctive accent */
+    .card-era {
+      position: absolute;
+      top: 0.85rem;
+      right: 0.85rem;
+      z-index: 3;
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 0.53rem;
+      letter-spacing: 0.14em;
+      color: var(--copper);
+      border: 1px solid rgba(138,85,53,0.36);
+      background: rgba(8,7,18,0.74);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      padding: 0.17rem 0.5rem;
     }
 
     .card-img {
@@ -203,14 +218,12 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      opacity: 0.72;
-      transition: transform 0.8s var(--ease), opacity 0.5s ease;
+      opacity: 0.76;
+      transition: transform 0.9s var(--ease), opacity 0.5s ease;
     }
-
-    .card:hover .card-img,
-    .card:focus-visible .card-img {
+    .card:hover .card-img, .card:focus-visible .card-img {
       transform: scale(1.065);
-      opacity: 0.92;
+      opacity: 0.94;
     }
 
     .card-shade {
@@ -218,334 +231,258 @@
       inset: 0;
       background: linear-gradient(
         to top,
-        rgba(9, 9, 30, 0.97) 0%,
-        rgba(9, 9, 30, 0.52) 38%,
-        rgba(9, 9, 30, 0.04) 68%
+        rgba(8,7,18,0.97) 0%,
+        rgba(8,7,18,0.48) 35%,
+        rgba(8,7,18,0.0)  64%
       );
       z-index: 1;
     }
 
     .card-body {
       position: absolute;
-      bottom: 0;
-      right: 0;
-      left: 0;
-      padding: 1.2rem 1.2rem 1rem;
+      bottom: 0; right: 0; left: 0;
+      padding: 1.1rem 1.1rem 0.9rem;
       z-index: 2;
     }
-
-    .card-date {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.54rem;
-      letter-spacing: 0.18em;
-      color: var(--lapis);
-      margin-bottom: 0.28rem;
-      display: block;
-      opacity: 0.8;
-    }
-
     .card-name {
-      font-size: 0.95rem;
+      font-size: 0.97rem;
       font-weight: 500;
-      color: var(--text);
-      line-height: 1.3;
+      color: var(--tx);
+      line-height: 1.25;
     }
-
     .card-latin {
       font-family: 'IM Fell English', Georgia, serif;
       font-style: italic;
-      font-size: 0.7rem;
-      color: var(--gold);
-      opacity: 0.55;
-      margin-top: 0.14rem;
+      font-size: 0.67rem;
+      color: var(--jade);
+      opacity: 0.72;
+      margin-top: 0.1rem;
       display: block;
     }
-
-    .card-place {
-      font-size: 0.68rem;
-      color: var(--text-2);
-      margin-top: 0.18rem;
+    .card-footer {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-top: 0.28rem;
+    }
+    .card-place { font-size: 0.64rem; color: var(--tx2); }
+    .card-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.52rem;
+      color: var(--tx3);
+      letter-spacing: 0.06em;
     }
 
-    /* Feature card: larger body text */
-    #gallery > .card:first-child .card-body {
-      padding: 1.75rem 1.75rem 1.5rem;
-    }
-
-    #gallery > .card:first-child .card-date {
-      font-size: 0.64rem;
-      margin-bottom: 0.42rem;
-    }
-
-    #gallery > .card:first-child .card-name {
-      font-size: 1.5rem;
-    }
-
-    #gallery > .card:first-child .card-latin {
-      font-size: 0.92rem;
-      opacity: 0.65;
-    }
+    /* Feature card overrides */
+    #gallery > .card:first-child .card-body { padding: 1.65rem 1.65rem 1.35rem; }
+    #gallery > .card:first-child .card-name { font-size: 1.6rem; }
+    #gallery > .card:first-child .card-latin { font-size: 0.92rem; }
+    #gallery > .card:first-child .card-era  { font-size: 0.62rem; }
 
     @keyframes cardIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Detail view ───────────────────────────────────────────── */
+    #detail { display: none; min-height: 100vh; }
+    #detail.active {
+      display: block;
+      animation: fadeIn 0.38s var(--ease) both;
+    }
+    @keyframes fadeIn {
       from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── Detail view ────────────────────────────────────────────── */
-    #detail {
-      display: none;
-      min-height: 100vh;
-    }
-
-    #detail.active {
-      display: block;
-      animation: detailIn 0.4s var(--ease) both;
-    }
-
-    @keyframes detailIn {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Sticky bar */
     .detail-bar {
       position: sticky;
       top: 0;
       z-index: 20;
-      background: rgba(9, 9, 30, 0.88);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
+      background: rgba(8,7,18,0.86);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border-bottom: 1px solid var(--b0);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.85rem 1.5rem;
+      padding: 0.9rem 1.75rem;
       gap: 1rem;
     }
 
     .btn-back {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.45rem;
       background: none;
-      border: 1px solid var(--border);
-      color: var(--text-2);
+      border: 1px solid var(--b1);
+      color: var(--tx2);
       font-family: 'Vazirmatn', sans-serif;
       font-size: 0.78rem;
-      padding: 0.42rem 0.95rem;
+      padding: 0.4rem 0.9rem;
       cursor: pointer;
-      transition: color 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
     }
-
-    .btn-back:hover {
-      border-color: var(--border-hi);
-      color: var(--gold);
-      background: var(--gold-dim);
-    }
-
-    .btn-back:focus-visible {
-      outline: 2px solid var(--lapis);
-      outline-offset: 2px;
-    }
-
+    .btn-back:hover { border-color: var(--b2); color: var(--gold); background: var(--gold-dim); }
+    .btn-back:focus-visible { outline: 2px solid var(--lapis); outline-offset: 2px; }
     .btn-back svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
 
     .detail-count {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.62rem;
-      color: var(--text-3);
+      font-size: 0.6rem;
+      color: var(--tx3);
       letter-spacing: 0.1em;
       user-select: none;
     }
 
-    /* Hero image */
     .detail-hero {
       position: relative;
-      height: min(65vh, 600px);
+      height: min(68vh, 620px);
       overflow: hidden;
-      background: var(--surface-1);
+      background: var(--sf1);
     }
-
     .detail-hero-img {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       object-fit: cover;
       display: block;
-      opacity: 0.85;
+      opacity: 0.86;
     }
-
+    /* Ghost catalog number — large, barely visible */
+    .detail-hero-num {
+      position: absolute;
+      bottom: 1.25rem;
+      left: 1.75rem;
+      font-family: 'IM Fell English', Georgia, serif;
+      font-style: italic;
+      font-size: 7rem;
+      line-height: 1;
+      color: rgba(190,146,50,0.11);
+      user-select: none;
+      pointer-events: none;
+      z-index: 2;
+    }
     .detail-hero-fade {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 70%;
+      bottom: 0; left: 0; right: 0;
+      height: 65%;
       background: linear-gradient(to bottom, transparent, var(--bg));
       pointer-events: none;
     }
 
-    /* Content column */
     .detail-content {
-      max-width: 700px;
+      max-width: 720px;
       margin: 0 auto;
-      padding: 2.5rem 1.5rem 6rem;
+      padding: 3rem 1.75rem 7rem;
     }
 
-    /* Tags */
     .detail-tags {
       display: flex;
       align-items: center;
-      gap: 0.55rem;
+      gap: 0.5rem;
       flex-wrap: wrap;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
     }
-
     .tag {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.57rem;
-      letter-spacing: 0.15em;
-      padding: 0.2rem 0.6rem;
+      font-size: 0.55rem;
+      letter-spacing: 0.13em;
+      padding: 0.18rem 0.55rem;
       border: 1px solid;
       line-height: 1.6;
-      text-transform: uppercase;
     }
-
-    .tag-period   { color: var(--lapis);  border-color: rgba(79, 114, 181, 0.28); }
-    .tag-location { color: var(--text-2); border-color: var(--border); }
-    .tag-date     { color: var(--text-3); border-color: transparent; font-size: 0.55rem; }
+    .tag-era      { color: var(--copper); border-color: rgba(138,85,53,0.35); }
+    .tag-location { color: var(--tx2);    border-color: var(--b0); }
+    .tag-date     { color: var(--tx3);    border-color: transparent; }
 
     .detail-title {
-      font-size: clamp(2rem, 5.5vw, 3.4rem);
+      font-size: clamp(2.1rem, 5.5vw, 3.6rem);
       font-weight: 500;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.025em;
       line-height: 1.1;
-      color: var(--text);
-      margin-bottom: 0.35rem;
+      color: var(--tx);
+      margin-bottom: 0.3rem;
     }
-
     .detail-latin {
       font-family: 'IM Fell English', Georgia, serif;
       font-style: italic;
       font-size: 1.1rem;
-      color: var(--gold);
-      opacity: 0.6;
+      color: var(--jade);
+      opacity: 0.65;
       display: block;
-      margin-bottom: 2rem;
+      margin-bottom: 2.2rem;
     }
-
-    /* Gradient rule — mirrors the card accent line */
     .detail-rule {
-      width: 36px;
+      width: 40px;
       height: 2px;
-      background: linear-gradient(to left, var(--gold), var(--turquoise));
-      opacity: 0.55;
-      margin-bottom: 2rem;
+      background: linear-gradient(to left, var(--gold), var(--jade));
+      opacity: 0.5;
+      margin-bottom: 2.2rem;
     }
-
-    .detail-desc {
-      font-size: 0.97rem;
-      line-height: 2.1;
-      color: var(--text-2);
-      font-weight: 300;
-    }
-
+    .detail-desc { font-size: 0.96rem; line-height: 2.1; color: var(--tx2); font-weight: 300; }
     .detail-desc p + p { margin-top: 1.1rem; }
 
-    /* Prev / next */
     .detail-nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 3.5rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
+      margin-top: 4rem;
+      padding-top: 1.75rem;
+      border-top: 1px solid var(--b0);
     }
-
     .btn-nav {
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
       background: none;
-      border: 1px solid var(--border);
-      color: var(--text-2);
+      border: 1px solid var(--b0);
+      color: var(--tx2);
       font-family: 'Vazirmatn', sans-serif;
       font-size: 0.78rem;
       padding: 0.48rem 1.05rem;
       cursor: pointer;
-      transition: color 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
     }
-
-    .btn-nav:hover:not(:disabled) {
-      border-color: var(--border-hi);
-      color: var(--gold);
-      background: var(--gold-dim);
-    }
-
-    .btn-nav:focus-visible {
-      outline: 2px solid var(--lapis);
-      outline-offset: 2px;
-    }
-
-    .btn-nav:disabled { opacity: 0.2; cursor: not-allowed; }
+    .btn-nav:hover:not(:disabled) { border-color: var(--b2); color: var(--gold); background: var(--gold-dim); }
+    .btn-nav:focus-visible { outline: 2px solid var(--lapis); outline-offset: 2px; }
+    .btn-nav:disabled { opacity: 0.18; cursor: not-allowed; }
     .btn-nav svg { width: 14px; height: 14px; fill: currentColor; }
 
-    /* ── Scrollbar ──────────────────────────────────────────────── */
+    /* ── Scrollbar ─────────────────────────────────────────────── */
     ::-webkit-scrollbar { width: 3px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb { background: var(--b1); border-radius: 2px; }
 
-    /* ── Responsive ─────────────────────────────────────────────── */
+    /* ── Responsive ────────────────────────────────────────────── */
     @media (max-width: 1024px) {
-      #gallery {
-        grid-template-columns: repeat(2, 1fr);
-        grid-auto-rows: 250px;
-        gap: 1.25rem;
-      }
-      #gallery > .card:first-child {
-        grid-column: span 2;
-        grid-row: span 1;
-      }
+      #gallery { grid-template-columns: repeat(2,1fr); grid-auto-rows: 240px; gap: 1rem; }
+      #gallery > .card:first-child { grid-column: span 2; grid-row: span 1; }
     }
-
     @media (max-width: 640px) {
       .header-inner { padding: 3.5rem 1.25rem 3rem; }
-
-      #gallery {
-        grid-template-columns: repeat(2, 1fr);
-        grid-auto-rows: 185px;
-        padding: 2rem 0.75rem 5rem;
-        gap: 0.75rem;
-      }
-
-      #gallery > .card:first-child {
-        grid-column: span 2;
-        grid-row: span 1;
-      }
-
-      #gallery > .card:first-child .card-body { padding: 1.2rem 1.2rem 1rem; }
+      .header-stats { gap: 1.25rem; }
+      .stat-sep { height: 28px; }
+      #gallery { grid-template-columns: repeat(2,1fr); grid-auto-rows: 180px; padding: 2rem 0.75rem 5rem; gap: 0.75rem; }
+      #gallery > .card:first-child { grid-column: span 2; grid-row: span 1; }
+      #gallery > .card:first-child .card-body { padding: 1.1rem 1.1rem 0.9rem; }
       #gallery > .card:first-child .card-name { font-size: 1.1rem; }
-      #gallery > .card:first-child .card-latin { font-size: 0.75rem; }
-
-      .detail-hero { height: min(45vh, 320px); }
-      .detail-content { padding: 1.5rem 1rem 4rem; }
-      .detail-bar { padding: 0.75rem 1rem; }
+      #gallery > .card:first-child .card-latin { font-size: 0.72rem; }
+      .detail-hero { height: min(45vh, 300px); }
+      .detail-hero-num { font-size: 4rem; }
+      .detail-content { padding: 2rem 1.25rem 5rem; }
+      .detail-bar { padding: 0.75rem 1.25rem; }
     }
-
     @media (max-width: 400px) {
-      #gallery {
-        grid-template-columns: 1fr;
-        grid-auto-rows: auto;
-      }
-      .card { aspect-ratio: 4 / 3; }
-      #gallery > .card:first-child {
-        grid-column: span 1;
-        grid-row: span 1;
-      }
+      #gallery { grid-template-columns: 1fr; grid-auto-rows: auto; }
+      .card { aspect-ratio: 4/3; }
+      #gallery > .card:first-child { grid-column: 1; }
     }
-
-    /* ── Reduced motion ──────────────────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
-      .card, #detail.active { animation: none; }
+      .card, #detail.active, .title-en, .title-fa,
+      .header-tagline, .header-stats, .header-eras { animation: none; }
       .card-img { transition: opacity 0.3s ease; }
       .card:hover .card-img { transform: none; }
     }
@@ -556,33 +493,61 @@
 <!-- ── Header ──────────────────────────────────────────────────── -->
 <header class="site-header">
   <div class="header-inner">
-    <span class="header-eyebrow">Iran · Cultural Heritage Gallery</span>
-    <h1 class="header-title-en">Monuments of Persia</h1>
-    <span class="header-title-fa">گالری آثار باستانی ایران</span>
-    <p class="header-sub">نگاهی به شکوه تمدن چندهزارساله</p>
+
+    <!-- Chronological dynasty strip -->
+    <div class="header-eras" aria-label="دوره‌های تاریخی نمایش‌داده‌شده">
+      <span>ایلامی</span>
+      <span class="era-dot" aria-hidden="true">·</span>
+      <span>هخامنشی</span>
+      <span class="era-dot" aria-hidden="true">·</span>
+      <span>ساسانی</span>
+      <span class="era-dot" aria-hidden="true">·</span>
+      <span>زیاری</span>
+      <span class="era-dot" aria-hidden="true">·</span>
+      <span>صفوی</span>
+      <span class="era-dot" aria-hidden="true">·</span>
+      <span>قاجار</span>
+    </div>
+
+    <h1>
+      <span class="title-en">Monuments of Persia</span>
+      <span class="title-fa">گالری آثار باستانی ایران</span>
+    </h1>
+    <p class="header-tagline">نگاهی به شکوه تمدن چندهزارساله</p>
+
+    <div class="header-stats" role="list" aria-label="آمار مجموعه">
+      <div class="stat" role="listitem">
+        <span class="stat-num">۱۲</span>
+        <span class="stat-label">اثر تاریخی</span>
+      </div>
+      <div class="stat-sep" aria-hidden="true"></div>
+      <div class="stat" role="listitem">
+        <span class="stat-num">۸</span>
+        <span class="stat-label">میراث جهانی یونسکو</span>
+      </div>
+      <div class="stat-sep" aria-hidden="true"></div>
+      <div class="stat" role="listitem">
+        <span class="stat-num">۳۲۰۰</span>
+        <span class="stat-label">سال تاریخ</span>
+      </div>
+    </div>
   </div>
 
-  <!-- Floral screen-block divider: replicates the concrete jali block pattern
-       (image 3) — 4 circular arcs cut from each tile corner leave a
-       4-petal cross of positive material, creating repeating round openings. -->
-  <div class="jali-divider" aria-hidden="true">
+  <!-- Floral concrete-block divider -->
+  <div class="site-divider" aria-hidden="true">
     <svg viewBox="0 0 1440 60" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <!-- 30×30 tile: four corner circles (r=11) remove the dark background,
-             leaving gold cross-petal arms — two full rows fit the 60px band. -->
         <pattern id="floral-p" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
-          <!-- Positive (raised) material — gold fill -->
-          <rect width="30" height="30" fill="rgba(196,150,80,0.19)"/>
-          <!-- Corner circles cut the openings; gold stroke traces the arc boundary -->
-          <circle cx="0"  cy="0"  r="11" fill="rgba(9,9,30,0.97)" stroke="rgba(196,150,80,0.52)" stroke-width="1"/>
-          <circle cx="30" cy="0"  r="11" fill="rgba(9,9,30,0.97)" stroke="rgba(196,150,80,0.52)" stroke-width="1"/>
-          <circle cx="0"  cy="30" r="11" fill="rgba(9,9,30,0.97)" stroke="rgba(196,150,80,0.52)" stroke-width="1"/>
-          <circle cx="30" cy="30" r="11" fill="rgba(9,9,30,0.97)" stroke="rgba(196,150,80,0.52)" stroke-width="1"/>
+          <rect width="30" height="30" fill="rgba(190,146,50,0.19)"/>
+          <circle cx="0"  cy="0"  r="11" fill="rgba(8,7,18,0.97)" stroke="rgba(190,146,50,0.50)" stroke-width="1"/>
+          <circle cx="30" cy="0"  r="11" fill="rgba(8,7,18,0.97)" stroke="rgba(190,146,50,0.50)" stroke-width="1"/>
+          <circle cx="0"  cy="30" r="11" fill="rgba(8,7,18,0.97)" stroke="rgba(190,146,50,0.50)" stroke-width="1"/>
+          <circle cx="30" cy="30" r="11" fill="rgba(8,7,18,0.97)" stroke="rgba(190,146,50,0.50)" stroke-width="1"/>
         </pattern>
       </defs>
-      <line x1="0" y1="0.5" x2="1440" y2="0.5" stroke="rgba(155,128,72,0.42)" stroke-width="1"/>
+      <line x1="0" y1="0.5" x2="1440" y2="0.5" stroke="rgba(190,150,50,0.42)" stroke-width="1"/>
       <rect x="0" y="0" width="1440" height="60" fill="url(#floral-p)"/>
-      <line x1="0" y1="59.5" x2="1440" y2="59.5" stroke="rgba(155,128,72,0.2)" stroke-width="1"/>
+      <line x1="0" y1="59.5" x2="1440" y2="59.5" stroke="rgba(190,150,50,0.20)" stroke-width="1"/>
     </svg>
   </div>
 </header>
@@ -595,9 +560,7 @@
 
   <nav class="detail-bar" aria-label="ناوبری">
     <button class="btn-back" id="btn-back" onclick="closeDetail()">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-      </svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
       بازگشت به گالری
     </button>
     <span class="detail-count" id="detail-count" aria-live="polite"></span>
@@ -605,36 +568,30 @@
 
   <figure class="detail-hero" aria-hidden="true">
     <img id="d-img" class="detail-hero-img" src="" alt="" loading="lazy">
+    <div class="detail-hero-num" id="d-num" aria-hidden="true"></div>
     <div class="detail-hero-fade"></div>
   </figure>
 
   <div class="detail-content">
     <div class="detail-tags" aria-label="دسته‌بندی">
-      <span class="tag tag-period"   id="d-period"></span>
+      <span class="tag tag-era"      id="d-period"></span>
       <span class="tag tag-location" id="d-location"></span>
       <span class="tag tag-date"     id="d-date"></span>
     </div>
 
     <h2 class="detail-title" id="d-title"></h2>
     <span class="detail-latin" id="d-latin" aria-label="نام لاتین"></span>
-
     <div class="detail-rule" aria-hidden="true"></div>
-
     <div class="detail-desc" id="d-desc"></div>
 
     <div class="detail-nav">
-      <!-- In RTL flex: btn-prev renders on the right, btn-next on the left -->
       <button class="btn-nav" id="btn-prev" onclick="navigate(-1)" aria-label="اثر قبلی">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-        </svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
         قبلی
       </button>
       <button class="btn-nav" id="btn-next" onclick="navigate(1)" aria-label="اثر بعدی">
         بعدی
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-        </svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
       </button>
     </div>
   </div>
@@ -644,134 +601,98 @@
 /* ── Monument data ──────────────────────────────────────────────── */
 const MONUMENTS = [
   {
-    name:     "تخت جمشید",
-    latin:    "Persepolis",
-    period:   "هخامنشی",
-    location: "مرودشت، فارس",
-    date:     "c. 520–330 BCE",
-    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Persepolis_stairs_of_the_Apadana_relief.jpg/1280px-Persepolis_stairs_of_the_Apadana_relief.jpg",
-    desc:     `تخت جمشید، پایتخت تشریفاتی امپراتوری هخامنشی، از بزرگ‌ترین مجموعه‌های معماری باستانی جهان است. داریوش اول ساخت آن را در حدود ۵۲۰ پیش از میلاد آغاز کرد و جانشینانش خشایارشا و اردشیر اول آن را به اتمام رساندند.
+    name:"تخت جمشید", latin:"Persepolis", period:"هخامنشی",
+    location:"مرودشت، فارس", date:"c. 520–330 BCE",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Persepolis_stairs_of_the_Apadana_relief.jpg/1280px-Persepolis_stairs_of_the_Apadana_relief.jpg",
+    desc:`تخت جمشید، پایتخت تشریفاتی امپراتوری هخامنشی، از بزرگ‌ترین مجموعه‌های معماری باستانی جهان است. داریوش اول ساخت آن را در حدود ۵۲۰ پیش از میلاد آغاز کرد و جانشینانش خشایارشا و اردشیر اول آن را به اتمام رساندند.
 
 کاخ‌های آپادانا، صد ستون و تچر با نقش‌برجسته‌هایی که هیئت‌های نمایندگی ملل گوناگون را در حال تقدیم هدیه نشان می‌دهند، از ارزشمندترین منابع تصویری تاریخ هنر ایران باستانند. یونسکو تخت جمشید را در ۱۹۷۹ در فهرست میراث جهانی ثبت کرد.`
   },
   {
-    name:     "میدان نقش جهان",
-    latin:    "Naqsh-e Jahan Square",
-    period:   "صفوی",
-    location: "اصفهان",
-    date:     "c. 1598–1629 CE",
-    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Naqsh-i_Jahan_Square%2C_Jan._2018.jpg/1280px-Naqsh-i_Jahan_Square%2C_Jan._2018.jpg",
-    desc:     `میدان نقش جهان که امروز به نام میدان امام شناخته می‌شود، بزرگ‌ترین میدان شهری قرون وسطا در جهان به شمار می‌رود. شاه عباس اول صفوی آن را در دوران اوج شکوه پایتختش اصفهان بنا نهاد.
+    name:"میدان نقش جهان", latin:"Naqsh-e Jahan Square", period:"صفوی",
+    location:"اصفهان", date:"c. 1598–1629 CE",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Naqsh-i_Jahan_Square%2C_Jan._2018.jpg/1280px-Naqsh-i_Jahan_Square%2C_Jan._2018.jpg",
+    desc:`میدان نقش جهان که امروز به نام میدان امام شناخته می‌شود، بزرگ‌ترین میدان شهری قرون وسطا در جهان به شمار می‌رود. شاه عباس اول صفوی آن را در دوران اوج شکوه پایتختش اصفهان بنا نهاد.
 
 در چهار سوی این میدان چهار بنای اعجاب‌انگیز جای گرفته‌اند: مسجد امام با گنبد فیروزه‌ای رنگش، مسجد شیخ لطف‌الله با کاشی‌کاری بی‌نظیر، عالی‌قاپو با ایوان ستوندارش، و قیصریه که دروازه بازار سرپوشیده است. یونسکو این مجموعه را در ۱۹۷۹ به ثبت رساند.`
   },
   {
-    name:     "مسجد شیخ لطف‌الله",
-    latin:    "Sheikh Lotfollah Mosque",
-    period:   "صفوی",
-    location: "اصفهان",
-    date:     "1602–1619 CE",
-    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Sheikh_Lotfallah_Esfahan.JPG/1280px-Sheikh_Lotfallah_Esfahan.JPG",
-    desc:     `مسجد شیخ لطف‌الله در ضلع شرقی میدان نقش جهان، به گستردگی به عنوان شاهکار معماری اسلامی جهان شناخته می‌شود. شاه عباس اول آن را برای حرم سلطنتی و به نام پدرزنش بنا نهاد.
+    name:"مسجد شیخ لطف‌الله", latin:"Sheikh Lotfollah Mosque", period:"صفوی",
+    location:"اصفهان", date:"1602–1619 CE",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Sheikh_Lotfallah_Esfahan.JPG/1280px-Sheikh_Lotfallah_Esfahan.JPG",
+    desc:`مسجد شیخ لطف‌الله در ضلع شرقی میدان نقش جهان، به گستردگی به عنوان شاهکار معماری اسلامی جهان شناخته می‌شود. شاه عباس اول آن را برای حرم سلطنتی و به نام پدرزنش بنا نهاد.
 
 ویژگی منحصر به فرد این مسجد نداشتن گلدسته و صحن است؛ از طریق تونلی زیرزمینی به کاخ عالی‌قاپو متصل بود. گنبد کِرِمی رنگ آن که در طول روز سایه‌های متفاوتی می‌گیرد، و نقوش آفتابی درون آن، این مسجد را به تجربه‌ای فراموش‌نشدنی بدل کرده‌اند.`
   },
   {
-    name:     "مسجد نصیرالملک",
-    latin:    "Nasir ol Molk Mosque",
-    period:   "قاجار",
-    location: "شیراز، فارس",
-    date:     "1876–1888 CE",
-    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Nasir_ol_Molk_Mosque_%2831233739431%29.jpg/1280px-Nasir_ol_Molk_Mosque_%2831233739431%29.jpg",
-    desc:     `مسجد نصیرالملک که به «مسجد صورتی» شهرت یافته، یکی از خیره‌کننده‌ترین نمونه‌های معماری قاجاری است. پنجره‌های شیشه‌ای رنگارنگ آن در ساعات اولیه صبح، شبستان را به بوم نقاشی‌ای از نور بدل می‌کنند.
+    name:"مسجد نصیرالملک", latin:"Nasir ol Molk Mosque", period:"قاجار",
+    location:"شیراز، فارس", date:"1876–1888 CE",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Nasir_ol_Molk_Mosque_%2831233739431%29.jpg/1280px-Nasir_ol_Molk_Mosque_%2831233739431%29.jpg",
+    desc:`مسجد نصیرالملک که به «مسجد صورتی» شهرت یافته، یکی از خیره‌کننده‌ترین نمونه‌های معماری قاجاری است. پنجره‌های شیشه‌ای رنگارنگ آن در ساعات اولیه صبح، شبستان را به بوم نقاشی‌ای از نور بدل می‌کنند.
 
 کاشی‌کاری ظریف، طاق‌های گچ‌بری‌شده و ستون‌های مارپیچ، هر گوشه از این مسجد را به اثری از هنر اسلامی تبدیل کرده‌اند. بنای آن به دستور میرزا حسن‌علی نصیرالملک از بزرگان قاجار آغاز شد.`
   },
   {
-    name:     "ارگ بم",
-    latin:    "Arg-e Bam",
-    period:   "اشکانی–قاجار",
-    location: "بم، کرمان",
-    date:     "3rd c. BCE – 19th c. CE",
-    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Arge_Bam_Arad_edit.jpg/1280px-Arge_Bam_Arad_edit.jpg",
-    desc:     `ارگ بم بزرگ‌ترین سازه خشتی جهان و یکی از کهن‌ترین شهرهای پابرجا بر روی زمین بود. این دژ برای قرن‌ها بر سر جاده ابریشم، نقش یک شهر زنده را ایفا می‌کرد.
+    name:"ارگ بم", latin:"Arg-e Bam", period:"اشکانی–قاجار",
+    location:"بم، کرمان", date:"3rd c. BCE – 19th c. CE",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Arge_Bam_Arad_edit.jpg/1280px-Arge_Bam_Arad_edit.jpg",
+    desc:`ارگ بم بزرگ‌ترین سازه خشتی جهان و یکی از کهن‌ترین شهرهای پابرجا بر روی زمین بود. این دژ برای قرن‌ها بر سر جاده ابریشم، نقش یک شهر زنده را ایفا می‌کرد.
 
 زلزله ویرانگر دی‌ماه ۱۳۸۲ بخش بزرگی از آن را فرو ریخت. طرح بازسازی گسترده‌ای با همکاری ایران و جامعه بین‌الملل آغاز شد و یونسکو آن را هم‌زمان در فهرست میراث جهانی و فهرست میراث در خطر قرار داد.`
   },
   {
-    name:     "چغازنبیل",
-    latin:    "Chogha Zanbil",
-    period:   "ایلامی",
-    location: "شوش، خوزستان",
-    date:     "c. 1250 BCE",
-    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/%D8%B2%DB%8C%DA%AF%D9%88%D8%B1%D8%A7%D8%AA_%DA%86%D8%BA%D8%A7_%D8%B2%D9%86%D8%A8%DB%8C%D9%84.jpg/1280px-%D8%B2%DB%8C%DA%AF%D9%88%D8%B1%D8%A7%D8%AA_%DA%86%D8%BA%D8%A7_%D8%B2%D9%86%D8%A8%DB%8C%D9%84.jpg",
-    desc:     `چغازنبیل کهن‌ترین زیگورات ایران و نخستین اثری است که در ۱۹۷۹ از این سرزمین در فهرست میراث جهانی یونسکو جای گرفت. اونتاش ناپیریشا، پادشاه ایلام، آن را به منظور ایجاد مرکزی مذهبی برای خدای اینشوشیناک بنا نهاد.
+    name:"چغازنبیل", latin:"Chogha Zanbil", period:"ایلامی",
+    location:"شوش، خوزستان", date:"c. 1250 BCE",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/%D8%B2%DB%8C%DA%AF%D9%88%D8%B1%D8%A7%D8%AA_%DA%86%D8%BA%D8%A7_%D8%B2%D9%86%D8%A8%DB%8C%D9%84.jpg/1280px-%D8%B2%DB%8C%DA%AF%D9%88%D8%B1%D8%A7%D8%AA_%DA%86%D8%BA%D8%A7_%D8%B2%D9%86%D8%A8%DB%8C%D9%84.jpg",
+    desc:`چغازنبیل کهن‌ترین زیگورات ایران و نخستین اثری است که در ۱۹۷۹ از این سرزمین در فهرست میراث جهانی یونسکو جای گرفت. اونتاش ناپیریشا، پادشاه ایلام، آن را به منظور ایجاد مرکزی مذهبی برای خدای اینشوشیناک بنا نهاد.
 
 از پنج طبقه اصلی زیگورات، اکنون تنها سه طبقه نخست برجاست. معابد متعددی در پیرامون آن قرار داشتند و دروازه‌هایی از جهات گوناگون به مجموعه دسترسی می‌دادند.`
   },
   {
-    name:     "آرامگاه کوروش بزرگ",
-    latin:    "Tomb of Cyrus",
-    period:   "هخامنشی",
-    location: "پاسارگاد، فارس",
-    date:     "c. 530 BCE",
-    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Pasargad_Tomb_Cyrus3.jpg/1280px-Pasargad_Tomb_Cyrus3.jpg",
-    desc:     `آرامگاه کوروش بزرگ، بنیان‌گذار امپراتوری هخامنشی، در دشت مرغاب پاسارگاد ایستاده است. این سازه ساده اما پرشکوه از بلوک‌های سنگ آهکی سفید ساخته شده و بر شش پله به سبک زیگورات استوار است.
+    name:"آرامگاه کوروش بزرگ", latin:"Tomb of Cyrus", period:"هخامنشی",
+    location:"پاسارگاد، فارس", date:"c. 530 BCE",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Pasargad_Tomb_Cyrus3.jpg/1280px-Pasargad_Tomb_Cyrus3.jpg",
+    desc:`آرامگاه کوروش بزرگ، بنیان‌گذار امپراتوری هخامنشی، در دشت مرغاب پاسارگاد ایستاده است. این سازه ساده اما پرشکوه از بلوک‌های سنگ آهکی سفید ساخته شده و بر شش پله به سبک زیگورات استوار است.
 
 اسکندر مقدونی پس از فتح ایران از این آرامگاه بازدید کرد و آن را گرامی داشت. پاسارگاد به عنوان نخستین پایتخت هخامنشی در ۲۰۰۴ در فهرست میراث جهانی یونسکو ثبت شد.`
   },
   {
-    name:     "نقش رستم",
-    latin:    "Naqsh-e Rostam",
-    period:   "هخامنشی–ساسانی",
-    location: "مرودشت، فارس",
-    date:     "5th c. BCE – 3rd c. CE",
-    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Naqsh-e_Rustam_necropolis_in_Iran.jpg/1280px-Naqsh-e_Rustam_necropolis_in_Iran.jpg",
-    desc:     `نقش رستم آرامگاه صخره‌ای چهار تن از شاهان هخامنشی است که به شکل صلیب در دل کوه حسین کنده شده‌اند. در پایین این آرامگاه‌ها، نقش‌برجسته‌های شکوهمند ساسانی چشم را خیره می‌کنند.
+    name:"نقش رستم", latin:"Naqsh-e Rostam", period:"هخامنشی–ساسانی",
+    location:"مرودشت، فارس", date:"5th c. BCE – 3rd c. CE",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Naqsh-e_Rustam_necropolis_in_Iran.jpg/1280px-Naqsh-e_Rustam_necropolis_in_Iran.jpg",
+    desc:`نقش رستم آرامگاه صخره‌ای چهار تن از شاهان هخامنشی است که به شکل صلیب در دل کوه حسین کنده شده‌اند. در پایین این آرامگاه‌ها، نقش‌برجسته‌های شکوهمند ساسانی چشم را خیره می‌کنند.
 
 مشهورترین تصویر، پیروزی شاپور اول بر والرین، امپراتور روم است که سند تصویری کم‌نظیری از روابط ایران و روم به شمار می‌رود. کعبه زردشت، سازه‌ای مرموز مکعبی‌شکل، در برابر آرامگاه‌ها ایستاده است.`
   },
   {
-    name:     "برج قابوس",
-    latin:    "Gonbad-e Qabus",
-    period:   "زیاری",
-    location: "گنبدکاووس، گلستان",
-    date:     "1006 CE",
-    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Gonbad-e_Qabus_tower2017.jpg/1280px-Gonbad-e_Qabus_tower2017.jpg",
-    desc:     `برج قابوس، مقبره شمس‌المعالی قابوس بن وشمگیر، امیر هنرپرور سلسله زیاری، با ارتفاع حدود ۷۲ متر از بلندترین آجرپوشی‌های جهان در عصر خود بود. ده پشتوانه مثلثی‌شکل بدنه آجری آن را در دشت گرگان محکم نگه داشته‌اند.
+    name:"برج قابوس", latin:"Gonbad-e Qabus", period:"زیاری",
+    location:"گنبدکاووس، گلستان", date:"1006 CE",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Gonbad-e_Qabus_tower2017.jpg/1280px-Gonbad-e_Qabus_tower2017.jpg",
+    desc:`برج قابوس، مقبره شمس‌المعالی قابوس بن وشمگیر، امیر هنرپرور سلسله زیاری، با ارتفاع حدود ۷۲ متر از بلندترین آجرپوشی‌های جهان در عصر خود بود. ده پشتوانه مثلثی‌شکل بدنه آجری آن را در دشت گرگان محکم نگه داشته‌اند.
 
 روایت است که تابوت شیشه‌ای قابوس از سقف آن آویزان بود تا هم آفتاب و هم مهتاب بر آن بتابند. یونسکو این برج را در ۲۰۱۲ در فهرست میراث جهانی ثبت کرد.`
   },
   {
-    name:     "کاخ گلستان",
-    latin:    "Golestan Palace",
-    period:   "قاجار",
-    location: "تهران",
-    date:     "17th–19th c. CE",
-    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Palais_du_Golestan%2C_T%C3%A9h%C3%A9ran_%285%29.jpg/1280px-Palais_du_Golestan%2C_T%C3%A9h%C3%A9ran_%285%29.jpg",
-    desc:     `کاخ گلستان قدیمی‌ترین مجموعه تاریخی تهران و مرکز حکومت سلسله قاجار بود. این کاخ آمیزه‌ای بی‌نظیر از هنر ایرانی و تأثیرات اروپایی است که در دوره‌ای طولانی شکل گرفت.
+    name:"کاخ گلستان", latin:"Golestan Palace", period:"قاجار",
+    location:"تهران", date:"17th–19th c. CE",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Palais_du_Golestan%2C_T%C3%A9h%C3%A9ran_%285%29.jpg/1280px-Palais_du_Golestan%2C_T%C3%A9h%C3%A9ran_%285%29.jpg",
+    desc:`کاخ گلستان قدیمی‌ترین مجموعه تاریخی تهران و مرکز حکومت سلسله قاجار بود. این کاخ آمیزه‌ای بی‌نظیر از هنر ایرانی و تأثیرات اروپایی است که در دوره‌ای طولانی شکل گرفت.
 
 هفده بنای تاریخی از جمله تالار آینه با آینه‌کاری‌های خیره‌کننده‌اش، کاخ شمس‌العماره، عمارت بادگیر و باغ تاریخی این مجموعه را می‌سازند. یونسکو کاخ گلستان را در ۲۰۱۳ در فهرست میراث جهانی ثبت کرد.`
   },
   {
-    name:     "طاق بستان",
-    latin:    "Taq-e Bostan",
-    period:   "ساسانی",
-    location: "کرمانشاه",
-    date:     "4th–7th c. CE",
-    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/%D8%AA%D8%A7%D9%82%E2%80%8C%D8%A8%D8%B3%D8%AA%D8%A7%D9%86.jpg/1280px-%D8%AA%D8%A7%D9%82%E2%80%8C%D8%A8%D8%B3%D8%AA%D8%A7%D9%86.jpg",
-    desc:     `طاق بستان مجموعه‌ای از نقش‌برجسته‌های سنگی ساسانی است که در دامنه کوه پراو، کنار چشمه‌ای دائمی در کرمانشاه، حک شده‌اند. این آثار از شاهکارهای هنر ساسانی در خاورمیانه به شمار می‌روند.
+    name:"طاق بستان", latin:"Taq-e Bostan", period:"ساسانی",
+    location:"کرمانشاه", date:"4th–7th c. CE",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/%D8%AA%D8%A7%D9%82%E2%80%8C%D8%A8%D8%B3%D8%AA%D8%A7%D9%86.jpg/1280px-%D8%AA%D8%A7%D9%82%E2%80%8C%D8%A8%D8%B3%D8%AA%D8%A7%D9%86.jpg",
+    desc:`طاق بستان مجموعه‌ای از نقش‌برجسته‌های سنگی ساسانی است که در دامنه کوه پراو، کنار چشمه‌ای دائمی در کرمانشاه، حک شده‌اند. این آثار از شاهکارهای هنر ساسانی در خاورمیانه به شمار می‌روند.
 
 بزرگ‌ترین ایوان متعلق به خسرو دوم است و صحنه‌های شکار با فیل و گراز را به شکلی پرجزئیات به تصویر می‌کشد. ایوان کوچک‌تر مراسم تاج‌گذاری اردشیر دوم را نشان می‌دهد.`
   },
   {
-    name:     "مسجد جامع یزد",
-    latin:    "Jameh Mosque of Yazd",
-    period:   "ایلخانی–تیموری",
-    location: "یزد",
-    date:     "12th–15th c. CE",
-    img:      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Jameh_Mosque_of_Yazd_Iran.jpg/1280px-Jameh_Mosque_of_Yazd_Iran.jpg",
-    desc:     `مسجد جامع یزد با مناره‌های باشکوه و کاشی‌کاری فیروزه‌ای خود یکی از بلندترین مساجد ایران است. پیشینه آن به قرن دوازدهم برمی‌گردد، اما بخش اعظم ساختار کنونی در دوران ایلخانی و تیموری شکل گرفت.
+    name:"مسجد جامع یزد", latin:"Jameh Mosque of Yazd", period:"ایلخانی–تیموری",
+    location:"یزد", date:"12th–15th c. CE",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Jameh_Mosque_of_Yazd_Iran.jpg/1280px-Jameh_Mosque_of_Yazd_Iran.jpg",
+    desc:`مسجد جامع یزد با مناره‌های باشکوه و کاشی‌کاری فیروزه‌ای خود یکی از بلندترین مساجد ایران است. پیشینه آن به قرن دوازدهم برمی‌گردد، اما بخش اعظم ساختار کنونی در دوران ایلخانی و تیموری شکل گرفت.
 
 کتیبه‌های نفیس کوفی، محراب گچ‌بری‌شده و گنبد دوجداره کاشی‌کاری‌شده از دیدنی‌ترین بخش‌های این مسجدند. یزد در ۲۰۱۷ به عنوان یک شهر تاریخی در فهرست میراث جهانی یونسکو جای گرفت.`
   }
@@ -781,20 +702,16 @@ const MONUMENTS = [
 function toPersian(n) {
   return String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
 }
-
 function toHTML(text) {
   return text.trim().split(/\n\n+/).map(p => `<p>${p.trim()}</p>`).join('');
 }
 
 /* ── State ──────────────────────────────────────────────────────── */
-let current      = -1;
-let savedScrollY = 0;
-let lastCard     = null;
+let current = -1, savedScrollY = 0, lastCard = null;
 
 /* ── Build gallery ──────────────────────────────────────────────── */
 (function build() {
   const gallery = document.getElementById('gallery');
-
   gallery.innerHTML = MONUMENTS.map((m, i) => `
     <article
       class="card"
@@ -802,21 +719,18 @@ let lastCard     = null;
       role="button"
       aria-label="${m.name}، ${m.location}"
       data-index="${i}"
-      style="animation-delay: ${i * 0.05}s"
+      style="animation-delay:${i * 0.05}s"
     >
-      <img
-        class="card-img"
-        src="${m.img}"
-        alt="${m.name}"
-        loading="lazy"
-        onerror="this.style.opacity='0'"
-      >
+      <img class="card-img" src="${m.img}" alt="${m.name}" loading="lazy" onerror="this.style.opacity='0'">
       <div class="card-shade" aria-hidden="true"></div>
+      <span class="card-era" aria-hidden="true">${m.period}</span>
       <div class="card-body">
-        <span class="card-date">${m.date}</span>
         <div class="card-name">${m.name}</div>
         <span class="card-latin">${m.latin}</span>
-        <div class="card-place">${m.location}</div>
+        <div class="card-footer">
+          <span class="card-place">${m.location}</span>
+          <span class="card-date">${m.date}</span>
+        </div>
       </div>
     </article>
   `).join('');
@@ -825,7 +739,6 @@ let lastCard     = null;
     const card = e.target.closest('[data-index]');
     if (card) { lastCard = card; openDetail(+card.dataset.index); }
   });
-
   gallery.addEventListener('keydown', e => {
     if (e.key !== 'Enter' && e.key !== ' ') return;
     const card = e.target.closest('[data-index]');
@@ -835,33 +748,31 @@ let lastCard     = null;
 
 /* ── Open detail ────────────────────────────────────────────────── */
 function openDetail(idx) {
-  current      = idx;
+  current = idx;
   savedScrollY = window.scrollY;
-  const m      = MONUMENTS[idx];
+  const m = MONUMENTS[idx];
 
-  document.getElementById('d-img').src                = m.img;
-  document.getElementById('d-img').alt                = m.name;
-  document.getElementById('d-title').textContent      = m.name;
-  document.getElementById('d-latin').textContent      = m.latin;
-  document.getElementById('d-period').textContent     = m.period;
-  document.getElementById('d-location').textContent   = m.location;
-  document.getElementById('d-date').textContent       = m.date;
+  document.getElementById('d-img').src              = m.img;
+  document.getElementById('d-img').alt              = m.name;
+  document.getElementById('d-num').textContent      = toPersian(idx + 1);
+  document.getElementById('d-title').textContent    = m.name;
+  document.getElementById('d-latin').textContent    = m.latin;
+  document.getElementById('d-period').textContent   = m.period;
+  document.getElementById('d-location').textContent = m.location;
+  document.getElementById('d-date').textContent     = m.date;
   document.getElementById('detail-count').textContent =
     `${toPersian(idx + 1)} از ${toPersian(MONUMENTS.length)}`;
-  document.getElementById('d-desc').innerHTML         = toHTML(m.desc);
+  document.getElementById('d-desc').innerHTML = toHTML(m.desc);
 
   document.getElementById('btn-prev').disabled = idx === 0;
   document.getElementById('btn-next').disabled = idx === MONUMENTS.length - 1;
 
   const gallery = document.getElementById('gallery');
   const detail  = document.getElementById('detail');
-
   gallery.style.display = 'none';
   gallery.setAttribute('aria-hidden', 'true');
-
   detail.classList.add('active');
   detail.removeAttribute('aria-hidden');
-
   window.scrollTo({ top: 0, behavior: 'instant' });
   document.getElementById('btn-back').focus();
 }
@@ -870,18 +781,15 @@ function openDetail(idx) {
 function closeDetail() {
   const gallery = document.getElementById('gallery');
   const detail  = document.getElementById('detail');
-
   detail.classList.remove('active');
   detail.setAttribute('aria-hidden', 'true');
-
   gallery.style.display = '';
   gallery.removeAttribute('aria-hidden');
-
   window.scrollTo({ top: savedScrollY, behavior: 'instant' });
   if (lastCard) lastCard.focus();
 }
 
-/* ── Navigate prev / next ───────────────────────────────────────── */
+/* ── Navigate ───────────────────────────────────────────────────── */
 function navigate(dir) {
   const next = current + dir;
   if (next >= 0 && next < MONUMENTS.length) openDetail(next);
@@ -891,10 +799,9 @@ function navigate(dir) {
 document.addEventListener('keydown', e => {
   if (!document.getElementById('detail').classList.contains('active')) return;
   if (e.key === 'Escape')     closeDetail();
-  if (e.key === 'ArrowLeft')  navigate(1);   // RTL: left = next in sequence
-  if (e.key === 'ArrowRight') navigate(-1);  // RTL: right = previous
+  if (e.key === 'ArrowLeft')  navigate(1);
+  if (e.key === 'ArrowRight') navigate(-1);
 });
 </script>
-
 </body>
 </html>
